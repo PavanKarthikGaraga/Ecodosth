@@ -1,0 +1,244 @@
+import Link from "next/link";
+import Image from "next/image";
+import { Trash2, Plus, Minus, ShoppingBag, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+
+const Cart = () => {
+  // Mock cart data - in a real app, this would come from state management or API
+  const cartItems = [
+    {
+      id: "wooden-spork-white",
+      name: "4\" Wooden Spork - White",
+      price: 25,
+      quantity: 2,
+      image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=100&h=100&fit=crop&crop=center",
+      ecoFriendly: true,
+    },
+    {
+      id: "square-plate",
+      name: "10\" Square Plate",
+      price: 45,
+      quantity: 1,
+      image: "https://images.unsplash.com/photo-1578916171728-46686eac8d58?w=100&h=100&fit=crop&crop=center",
+      ecoFriendly: true,
+    },
+  ];
+
+  const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  const shipping = subtotal > 500 ? 0 : 50;
+  const tax = Math.round(subtotal * 0.18); // 18% GST
+  const total = subtotal + shipping + tax;
+
+  return (
+    <div className="min-h-screen bg-bg">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Header */}
+        <div className="mb-8">
+          <h1 className="text-3xl md:text-4xl font-heading font-bold text-headings mb-2">
+            Shopping Cart
+          </h1>
+          <p className="text-muted-foreground">
+            {cartItems.length} {cartItems.length === 1 ? 'item' : 'items'} in your cart
+          </p>
+        </div>
+
+        {cartItems.length === 0 ? (
+          /* Empty Cart */
+          <div className="text-center py-16">
+            <div className="max-w-md mx-auto">
+              <ShoppingBag className="h-24 w-24 text-muted-foreground mx-auto mb-6" />
+              <h2 className="text-2xl font-heading font-semibold text-headings mb-4">
+                Your cart is empty
+              </h2>
+              <p className="text-muted-foreground mb-8">
+                Looks like you haven&apos;t added any items to your cart yet.
+              </p>
+              <Button asChild size="lg">
+                <Link href="/products">
+                  Continue Shopping
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Link>
+              </Button>
+            </div>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Cart Items */}
+            <div className="lg:col-span-2">
+              <Card>
+                <CardContent className="p-6">
+                  <div className="space-y-6">
+                    {cartItems.map((item) => (
+                      <div key={item.id} className="flex items-center space-x-4 py-4 border-b border-border last:border-0">
+                        {/* Product Image */}
+                        <div className="relative w-20 h-20 rounded-lg overflow-hidden bg-card-accent shrink-0">
+                          <Image
+                            src={item.image}
+                            alt={item.name}
+                            fill
+                            className="object-cover"
+                            sizes="80px"
+                          />
+                        </div>
+
+                        {/* Product Details */}
+                        <div className="flex-1 min-w-0">
+                          <h3 className="font-heading font-semibold text-headings mb-1">
+                            {item.name}
+                          </h3>
+                          <div className="flex items-center space-x-2 mb-2">
+                            <span className="text-lg font-bold text-headings">₹{item.price}</span>
+                            {item.ecoFriendly && (
+                              <span className="text-xs bg-green-100 text-green-600 px-2 py-1 rounded-full">
+                                Eco-Friendly
+                              </span>
+                            )}
+                          </div>
+                          <p className="text-sm text-muted-foreground">
+                            Subtotal: ₹{item.price * item.quantity}
+                          </p>
+                        </div>
+
+                        {/* Quantity Controls */}
+                        <div className="flex items-center space-x-2">
+                          <Button
+                            variant="outline"
+                            size="icon"
+                            className="h-8 w-8 rounded-full"
+                          >
+                            <Minus className="h-4 w-4" />
+                          </Button>
+                          <span className="w-8 text-center font-medium">{item.quantity}</span>
+                          <Button
+                            variant="outline"
+                            size="icon"
+                            className="h-8 w-8 rounded-full"
+                          >
+                            <Plus className="h-4 w-4" />
+                          </Button>
+                        </div>
+
+                        {/* Remove Button */}
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="text-red-500 hover:text-red-600 hover:bg-red-50"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Continue Shopping */}
+              <div className="mt-6">
+                <Button variant="outline" asChild>
+                  <Link href="/products">
+                    <ArrowRight className="mr-2 h-4 w-4 rotate-180" />
+                    Continue Shopping
+                  </Link>
+                </Button>
+              </div>
+            </div>
+
+            {/* Order Summary */}
+            <div className="lg:col-span-1">
+              <Card className="sticky top-8">
+                <CardContent className="p-6">
+                  <h2 className="text-xl font-heading font-semibold text-headings mb-6">
+                    Order Summary
+                  </h2>
+
+                  <div className="space-y-4">
+                    <div className="flex justify-between">
+                      <span>Subtotal ({cartItems.length} items)</span>
+                      <span>₹{subtotal}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Shipping</span>
+                      <span className={shipping === 0 ? "text-green-600" : ""}>
+                        {shipping === 0 ? "Free" : `₹${shipping}`}
+                      </span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Tax (GST 18%)</span>
+                      <span>₹{tax}</span>
+                    </div>
+                    <div className="border-t border-border pt-4">
+                      <div className="flex justify-between text-lg font-bold">
+                        <span>Total</span>
+                        <span>₹{total}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Free Shipping Notice */}
+                  {subtotal < 500 && (
+                    <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                      <p className="text-sm text-blue-700">
+                        Add ₹{500 - subtotal} more for free shipping!
+                      </p>
+                    </div>
+                  )}
+
+                  {/* Checkout Button */}
+                  <Button className="w-full mt-6" size="lg">
+                    Proceed to Checkout
+                    <ArrowRight className="ml-2 h-5 w-5" />
+                  </Button>
+
+                  {/* Payment Methods */}
+                  <div className="mt-6 text-center">
+                    <p className="text-sm text-muted-foreground mb-3">Secure payment with</p>
+                    <div className="flex justify-center space-x-4 opacity-60">
+                      <div className="text-xs font-medium">UPI</div>
+                      <div className="text-xs font-medium">Cards</div>
+                      <div className="text-xs font-medium">Net Banking</div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Eco Impact */}
+              <Card className="mt-6">
+                <CardContent className="p-6">
+                  <h3 className="text-lg font-heading font-semibold text-headings mb-4">
+                    Your Eco Impact
+                  </h3>
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm">Plastic Saved</span>
+                      <span className="text-sm font-medium text-green-600">
+                        {cartItems.length * 100}g
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm">Carbon Offset</span>
+                      <span className="text-sm font-medium text-green-600">
+                        {cartItems.length * 50}g CO₂
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm">Trees Preserved</span>
+                      <span className="text-sm font-medium text-green-600">
+                        {Math.round(cartItems.length * 0.1 * 10) / 10}
+                      </span>
+                    </div>
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-4">
+                    Every purchase contributes to a sustainable future
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default Cart;

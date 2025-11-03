@@ -1,0 +1,211 @@
+# EcoDosth — Website Structure & Component Plan (Cursor / shadcn / MagicUI)
+
+> **Backend not required now** — only frontend scaffolding. Cart & quote forms can be placeholder logic.
+> **Images:** Only use real relevant product photos (areca/wooden/bamboo). No unrelated props.
+> **Strict:** No emojis. Use icons only.
+> **Goal:** Premium international feel — clean, authority, sustainability.
+
+---
+
+## 📂 Project Structure
+
+```
+src/
+ └─ app/
+     ├─ (pages)/
+     │   └─ page.tsx               # Home
+     ├─ products/
+     │   ├─ page.tsx               # Products
+     │   └─ [slug]/page.tsx        # Product Detail
+     ├─ about/page.tsx
+     ├─ sustainability/page.tsx
+     ├─ manufacturing/page.tsx
+     ├─ contact/page.tsx
+     ├─ cart/page.tsx
+     └─ api/ (later for backend)
+
+ └─ components/
+     ├─ ui/ (shadcn + magicUI components)
+     ├─ layout/
+     │   ├─ Navbar.tsx (Sticky)
+     │   └─ Footer.tsx
+     └─ home/
+         ├─ Hero.tsx
+         ├─ ProductCategories.tsx
+         ├─ WhyEcoDosth.tsx
+         ├─ BestSellers.tsx
+         ├─ SustainabilityImpact.tsx
+         ├─ ManufacturingPreview.tsx
+         ├─ Testimonials.tsx
+         ├─ Certifications.tsx
+         ├─ GlobalShipping.tsx
+         └─ DualCTA.tsx
+```
+
+Home imports:
+
+```tsx
+import Hero from "@/components/home/Hero";
+import ProductCategories from "@/components/home/ProductCategories";
+...
+```
+
+---
+
+## 🏠 Home Page Structure (page.tsx)
+
+Sections (in order):
+
+1. **Hero** — modern hero, large typography, subtle natural texture
+2. **ProductCategories** — grid of 4
+3. **WhyEcoDosth** — icons + copy
+4. **BestSellers** — slider/cards
+5. **SustainabilityImpact** — metrics + eco meter
+6. **ManufacturingPreview** — 3 image strip + captions
+7. **Testimonials** — slider
+8. **Certifications** — logos row
+9. **GlobalShipping** — world pins
+10. **DualCTA** — shop + bulk
+
+All components placed under `components/home/*`
+
+---
+
+## 🛍️ Products Page
+
+* Filter sidebar (left)
+* Grid view
+* Eco badges
+* Pagination
+
+Components:
+
+* `ProductCard.tsx`
+* `ProductFilterSidebar.tsx`
+
+---
+
+## 📄 Product Detail Page
+
+* Gallery with zoom
+* Details block (price, qty, bulk)
+* Eco benefits list
+* Use cases
+* Eco meter
+* Specs table
+* Reviews
+* Related products
+
+Components:
+
+* `ProductGallery.tsx`
+* `ProductInfo.tsx`
+* `SpecsTable.tsx`
+
+---
+
+## 🧾 About Page
+
+* Brand story
+* Mission & vision
+* Manufacturing timeline (MagicUI timeline)
+* Farmer/community section
+* CSR
+* Facility gallery
+
+---
+
+## ♻️ Sustainability Page
+
+* Materials (areca / bamboo / cotton)
+* Comparison slider
+* Certifications
+* Impact stats
+* Waste → product graphic
+
+---
+
+## 🏭 Manufacturing Page
+
+* Factory overview
+* Process timeline
+* Quality flow
+* Food-safe packaging
+* Facility gallery
+* Compliance docs
+
+---
+
+## 📬 Contact Page
+
+* Form (shadcn form)
+* Business emails
+* WhatsApp button
+* Address + map embed
+* Download PDF catalog
+
+---
+
+## 🛒 Cart & Checkout
+
+* Cart list
+* Totals
+* Simple form / placeholder
+* Bulk banner reminder
+
+---
+
+## 🧾 Product SKUs
+
+Launch with only:
+
+* 4" Wooden Spork – White
+* 4" Wooden Spork – Green
+* 10" Square Plate
+* 10" Compartment Plate
+* 10" Round Plate
+* 14" Buffet Plate
+* 12" Compartment Plate
+* 4" Wooden Spoon
+* 6" Bowl
+
+> Search the web and use **exact relevant** images only.
+
+---
+
+## 🎨 Theme Summary
+
+* Earthy luxury
+* Clean spacing, large type
+* No loud colors
+* Icons for communication
+* Use texture only subtly (hero, footer)
+
+### Colors
+
+| Purpose        | Color                      |
+| -------------- | -------------------------- |
+| Primary Accent | `#695C49` (buttons, icons) |
+| Headings       | `#4A3D2A`                  |
+| Body Text      | `#2D2D2D`                  |
+| BG             | `#F5F1E8`                  |
+| Alt BG         | `#FAFAF7`                  |
+| Card Accent    | `#D3C8B4`                  |
+
+### Fonts
+
+* Headings: Cormorant / Playfair
+* Body: Inter / Poppins
+
+---
+
+## ✅ Development Notes
+
+* Use **shadcn + MagicUI** components for consistency
+* Sticky navbar
+* Smooth scroll
+* Animations subtle, not flashy
+* Export‑ready visual tone
+* Build components atomic & reusable
+
+---
