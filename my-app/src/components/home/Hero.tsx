@@ -1,21 +1,22 @@
 import Link from "next/link";
-import { ArrowRight} from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const Hero = () => {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background with subtle texture */}
-      <div className="absolute inset-0 bg-linear-to-br from-bg via-alt-bg to-card-accent opacity-30"></div>
+      <div className="absolute inset-0 bg-[linear-gradient(to_bottom_right,#FEFAE0_0%,#ffffff_50%,#D3C8B4_100%)] opacity-80"></div>
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(96,108,56,0.1),transparent_50%)]"></div>
 
       {/* Subtle pattern overlay */}
       <div className="absolute inset-0 opacity-[0.02]">
-        <div className="w-full h-full bg-[radial-gradient(circle_at_1px_1px,rgba(105,92,73,0.3)_1px,transparent_0)] bg-size[20px_20px]"></div> {/* TODO: Change the color to the primary-accent */}  
+        <div className="w-full h-full bg-[radial-gradient(circle_at_1px_1px,rgba(105,92,73,0.3)_1px,transparent_0)] bg-size[20px_20px]"></div> {/* TODO: Change the color to the primary-accent */}
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <div className="max-w-4xl mx-auto">
-          
+
 
           {/* Main Headline */}
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-heading font-bold text-headings leading-tight mb-6">

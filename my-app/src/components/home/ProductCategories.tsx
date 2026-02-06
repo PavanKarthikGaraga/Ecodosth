@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, Utensils, Circle, Square, Package } from "lucide-react";
 import Image from "next/image";
+import { Button } from "@/components/ui/button";
 
 const ProductCategories = () => {
   const categories = [
@@ -71,19 +72,15 @@ const ProductCategories = () => {
                       className="object-cover"
                       sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
                     />
-                    {/* Icon overlay */}
-                    {/* <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
-                      <Icon className="h-16 w-16 text-white opacity-80" />
-                    </div> */}
-                    {/* Overlay on hover */}
-                    <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+          
+                    {/* <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                       <ArrowRight className="h-8 w-8 text-white" />
-                    </div>
+                    </div> */}
                   </div>
 
                   {/* Content */}
                   <div className="p-6">
-                    <h3 className="text-xl font-heading font-semibold text-headings mb-2 group-hover:text-primary-accent transition-colors">
+                    <h3 className="text-xl font-heading font-bold text-headings mb-2 group-hover:text-primary-accent transition-colors">
                       {category.name}
                     </h3>
                     <p className="text-muted-foreground text-sm leading-relaxed">
@@ -96,15 +93,17 @@ const ProductCategories = () => {
           })}
         </div>
 
-        {/* View All Button */}
         <div className="text-center mt-12">
-          <Link
-            href="/products"
-            className="inline-flex items-center space-x-2 text-primary-accent hover:text-primary-accent/80 font-medium transition-colors"
+          <Button
+            asChild
+            size="lg"
+            className="bg-primary-accent hover:bg-primary-accent/90 text-primary-foreground font-medium px-8 py-6 rounded-full text-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
           >
-            <span>View All Products</span>
-            <ArrowRight className="h-4 w-4" />
-          </Link>
+            <Link href="/products" className="inline-flex items-center space-x-2">
+              <span>View All Products</span>
+              <ArrowRight className="h-5 w-5 ml-2" />
+            </Link>
+          </Button>
         </div>
       </div>
     </section>

@@ -35,7 +35,7 @@ const WhyEcoDosth = () => {
   ];
 
   return (
-    <section className="py-10 bg-bg">
+    <section className="py-10 bg-[#FAF9F6]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-16">
@@ -50,14 +50,15 @@ const WhyEcoDosth = () => {
 
         {/* Reasons Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {reasons.map((reason,) => {
+          {reasons.map((reason, index) => {
             const Icon = reason.icon;
             return (
               <div
                 key={reason.title}
-                className="text-center cursor-pointer p-6 rounded-2xl bg-alt-bg hover:bg-card-accent transition-colors duration-300"
+                className="text-center cursor-pointer p-6 rounded-2xl bg-white shadow-sm hover:shadow-md transition-all duration-500 hover:-translate-y-2 opacity-0 animate-fade-in-up"
+                style={{ animationDelay: `${index * 150}ms` }}
               >
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-primary-accent/10 rounded-full mb-6">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-primary-accent/10 rounded-full mb-6 group-hover:bg-primary-accent/20 transition-colors">
                   <Icon className="h-8 w-8 text-primary-accent" />
                 </div>
                 <h3 className="text-xl font-heading font-semibold text-headings mb-4">
@@ -72,12 +73,12 @@ const WhyEcoDosth = () => {
         </div>
 
         {/* Bottom CTA */}
-        <div className="text-center mt-16">
+        {/* <div className="text-center mt-16">
           <div className="inline-flex items-center space-x-2 bg-primary-accent/10 text-primary-accent px-6 py-3 rounded-full">
             <Shield className="h-5 w-5" />
             <span className="font-medium">Trusted by 50,000+ conscious consumers worldwide</span>
           </div>
-        </div>
+        </div> */}
       </div>
     </section>
   );

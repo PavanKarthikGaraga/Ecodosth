@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 
 const DualCTA = () => {
   return (
-    <section className="py-10 bg-bg">
+    <section className="py-10 bg-[#FAF9F6]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Shop CTA */}
@@ -49,7 +49,7 @@ const DualCTA = () => {
         </div>
 
         {/* Bottom Stats */}
-        <div className="mt-16 pt-12 border-t border-white/20">
+        {/* <div className="mt-16 pt-12 border-t border-white/20">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             <div>
               <div className="text-2xl md:text-3xl font-heading font-bold mb-1">50K+</div>
@@ -68,7 +68,7 @@ const DualCTA = () => {
               <div className="text-sm opacity-80">Biodegradable</div>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </section>
   );

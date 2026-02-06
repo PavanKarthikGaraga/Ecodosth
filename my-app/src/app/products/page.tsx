@@ -121,7 +121,7 @@ const Products = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-bg">
+    <div className="min-h-screen bg-[#FAF9F6]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="text-center mb-16">
           <h1 className="text-4xl md:text-6xl font-heading font-bold text-headings mb-6">

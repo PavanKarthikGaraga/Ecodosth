@@ -12,7 +12,7 @@ const SustainabilityImpact = () => {
     {
       icon: Droplets,
       value: "2.5M",
-      label: "Liters of Water Conserved",
+      label: "Liters Water Conserved",
       description: "Compared to traditional manufacturing",
       color: "text-blue-600",
     },
@@ -33,7 +33,7 @@ const SustainabilityImpact = () => {
   ];
 
   return (
-    <section className="py-10 bg-bg">
+    <section className="py-10 bg-[#FAF9F6]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-16">
@@ -53,18 +53,24 @@ const SustainabilityImpact = () => {
             return (
               <div
                 key={index}
-                className="text-center bg-white rounded-2xl p-8 shadow-sm hover:shadow-lg transition-all duration-300"
+                className="text-left  transition-all duration-300"
               >
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-primary-accent/10 rounded-full mb-6">
-                  <Icon className="h-8 w-8 text-primary-accent" />
+                
+                <div className="flex flex-row gap-6">
+                  <div className="flex flex-col items-start">
+                    <div className="text-4xl md:text-5xl font-heading font-bold mb-2">
+                      {impact.value}
+                    </div>
+                    <div className="text-lg font-heading font-semibold mb-2">
+                      {impact.label}
+                    </div>
+                  </div>
+
+                  <div className="inline-flex items-center justify-center w-14 h-14 bg-primary-accent/10 rounded-full">
+                    <Icon className="h-8 w-8 text-primary-accent" />
+                  </div>
                 </div>
-                <div className="text-4xl md:text-5xl font-heading font-bold mb-2">
-                  {impact.value}
-                </div>
-                <div className="text-lg font-heading font-semibold mb-2">
-                  {impact.label}
-                </div>
-                <div className="text-sm opacity-80">
+                <div className="text-sm opacity-80 pr-4">
                   {impact.description}
                 </div>
               </div>

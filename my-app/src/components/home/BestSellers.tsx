@@ -81,11 +81,11 @@ const BestSellers = () => {
                   {product.badge}
                 </div>
                 {/* Hover overlay */}
-                <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-10">
+                {/* <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-10">
                   <Button size="sm" className="bg-white text-primary-accent hover:bg-white/90">
                     Quick View
                   </Button>
-                </div>
+                </div> */}
               </div>
 
               {/* Content */}
@@ -134,7 +134,7 @@ const BestSellers = () => {
 
         {/* View All Button */}
         <div className="text-center mt-12">
-          <Button asChild size="lg" variant="outline">
+          <Button asChild size="lg" >
             <Link href="/products">
               View All Products
             </Link>
