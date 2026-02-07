@@ -1,106 +1,126 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
+const slides = [
+  {
+    id: 1,
+    image: "https://images.unsplash.com/photo-1610701596007-11502861dcfa?q=80&w=2070&auto=format&fit=crop",
+    title: "Eco-Friendly Dining",
+    subtitle: "Sustainable tableware for a better tomorrow",
+    cta: "Shop Now",
+    link: "/products",
+  },
+  {
+    id: 2,
+    image: "https://images.unsplash.com/photo-1584346133934-a3afd2a33c4c?q=80&w=2070&auto=format&fit=crop",
+    title: "Natural & Biodegradable",
+    subtitle: "100% plastic-free, made from fallen leaves",
+    cta: "Learn More",
+    link: "/about",
+  },
+  {
+    id: 3,
+    image: "https://images.unsplash.com/photo-1610701596007-11502861dcfa?q=80&w=2070&auto=format&fit=crop",
+    title: "Premium Quality",
+    subtitle: "Elegant designs for every occasion",
+    cta: "View Collection",
+    link: "/products",
+  },
+];
+
 const Hero = () => {
-  const [mounted, setMounted] = useState(false);
-  const [scrollY, setScrollY] = useState(0);
-  useEffect(() => {
-    setMounted(true);
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  const nextSlide = useCallback(() => {
+    setCurrentSlide((prev) => (prev + 1) % slides.length);
   }, []);
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+  };
+
   useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY);
-    handleScroll();
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-  const heroScale = useMemo(() => {
-    const progress = Math.min(scrollY / 500, 1);
-    return 1 - progress * 0.16;
-  }, [scrollY]);
+    const interval = setInterval(nextSlide, 5000);
+    return () => clearInterval(interval);
+  }, [nextSlide]);
+
   return (
-    <section
-      className="relative min-h-screen flex items-center justify-center overflow-hidden will-change-transform rounded-3xl"
-      style={{ transform: `scale(${heroScale})`, transformOrigin: "top center" }}
-    >
-      {/* Background with subtle texture */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_bottom_right,#FEFAE0_0%,#ffffff_50%,#D3C8B4_100%)] opacity-80"></div>
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(96,108,56,0.1),transparent_50%)]"></div>
-
-      {/* Subtle pattern overlay */}
-      <div className="absolute inset-0 opacity-[0.02]">
-        <div className="w-full h-full bg-[radial-gradient(circle_at_1px_1px,rgba(105,92,73,0.3)_1px,transparent_0)] bg-size[20px_20px]"></div> {/* TODO: Change the color to the primary-accent */}
-      </div>
-
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-        <div className="text-center">
-          {/* Main Headline */}
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-heading font-bold text-headings leading-tight mb-6">
-            From Nature,<br />
-            <span className="text-primary">For Tomorrow</span>
-          </h1>
-
-          {/* Subheadline */}
-          <p className="text-lg md:text-xl text-body-text max-w-3xl mx-auto mb-12 leading-relaxed">
-            Premium wooden, bamboo, and areca tableware crafted with care.
-            Beautiful, durable, and completely biodegradable alternatives to plastic.
-          </p>
-
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-24">
-            <Button
-              asChild
-              size="lg"
-              className="bg-primary-accent hover:bg-primary-accent/90 text-primary-foreground px-8 py-4 text-lg font-medium"
-            >
-              <Link href="/products">
-                Shop Collection
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Link>
-            </Button>
-            <Button
-              asChild
-              variant="outline"
-              size="lg"
-              className="border-primary-accent text-primary-accent hover:bg-primary-accent hover:text-primary-foreground px-8 py-4 text-lg font-medium"
-            >
-              <Link href="/about">
-                Our Story
-              </Link>
-            </Button>
-          </div>
-        </div>
-      </div>
-
-      {/* Bottom-centered half-visible rotating image */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[260px] sm:w-[320px] md:w-[380px] lg:w-[440px] xl:w-[500px] h-[130px] sm:h-[160px] md:h-[190px] lg:h-[220px] xl:h-[250px] overflow-hidden">
+    <div className="relative h-[80vh] w-full overflow-hidden bg-gray-900 group">
+      {/* Slides */}
+      {slides.map((slide, index) => (
         <div
-          className="relative w-full aspect-square will-change-transform"
-          style={{
-            transform: mounted ? "translateY(0px)" : "translateY(140px)",
-            transition: "transform 900ms ease-out",
-          }}
+          key={slide.id}
+          className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${index === currentSlide ? "opacity-100" : "opacity-0"
+            }`}
         >
-          <div
-            className="relative w-full h-full rounded-full  animate-spin"
-            style={{ animationDuration: "18s" }}
-          >
-            <Image
-              src="/plate.png"
-              alt="Eco-friendly areca plate"
-              fill
-              priority
-              className="object-contain bg-transparent"
-              sizes="(max-width: 640px) 260px, (max-width: 768px) 320px, (max-width: 1024px) 380px, (max-width: 1280px) 440px, 500px"
-            />
+          <Image
+            src={slide.image}
+            alt={slide.title}
+            fill
+            className="object-cover"
+            priority={index === 0}
+          />
+          {/* Overlay */}
+          <div className="absolute inset-0 bg-black/40  " />
+
+          {/* Content */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="text-center px-4 max-w-4xl mx-auto">
+              <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 animate-in slide-in-from-bottom-10 fade-in duration-700">
+                {slide.title}
+              </h1>
+              <p className="text-xl md:text-2xl text-white/90 mb-8 animate-in slide-in-from-bottom-10 fade-in duration-1000 delay-200">
+                {slide.subtitle}
+              </p>
+              <Button
+                asChild
+                size="lg"
+                className="bg-primary-accent hover:bg-primary-accent/90 text-primary-foreground text-lg px-8 py-6 rounded-full animate-in zoom-in-50 fade-in duration-1000 delay-300"
+              >
+                <Link href={slide.link}>
+                  {slide.cta} <ArrowRight className="ml-2 h-5 w-5" />
+                </Link>
+              </Button>
+            </div>
           </div>
         </div>
+      ))}
+
+      {/* Navigation Controls */}
+      <button
+        onClick={prevSlide}
+        className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 backdrop-blur-sm text-white p-3 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        aria-label="Previous slide"
+      >
+        <ChevronLeft className="h-8 w-8" />
+      </button>
+
+      <button
+        onClick={nextSlide}
+        className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 backdrop-blur-sm text-white p-3 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        aria-label="Next slide"
+      >
+        <ChevronRight className="h-8 w-8" />
+      </button>
+
+      {/* Dots */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex space-x-3">
+        {slides.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => setCurrentSlide(index)}
+            className={`w-3 h-3 rounded-full transition-all duration-300 ${index === currentSlide ? "bg-white w-8" : "bg-white/50 hover:bg-white/80"
+              }`}
+            aria-label={`Go to slide ${index + 1}`}
+          />
+        ))}
       </div>
-    </section>
+    </div>
   );
 };
 

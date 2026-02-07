@@ -53,8 +53,8 @@ const ProductCategories = () => {
         </div>
 
         {/* Categories Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {categories.map((category) => {
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          {categories.slice(0, 4).map((category) => {
             const Icon = category.icon;
             return (
               <Link
@@ -62,31 +62,25 @@ const ProductCategories = () => {
                 href={category.href}
                 className="group block"
               >
-                <div className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
-                  {/* Image */}
-                  <div className="aspect-square relative overflow-hidden">
-                    <Image
-                      src={category.image}
-                      alt={category.name}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                    />
-          
-                    {/* <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                      <ArrowRight className="h-8 w-8 text-white" />
-                    </div> */}
-                  </div>
+                {/* Image */}
+                <div className="mx-auto w-48 h-48 relative overflow-hidden rounded-full bg-gray-100 mb-4 shadow-sm border-4 border-white group-hover:border-primary-accent/20 transition-all duration-300">
+                  <Image
+                    src={category.image}
+                    alt={category.name}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-110"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                  />
+                </div>
 
-                  {/* Content */}
-                  <div className="p-6">
-                    <h3 className="text-xl font-heading font-bold text-headings mb-2 group-hover:text-primary-accent transition-colors">
-                      {category.name}
-                    </h3>
-                    <p className="text-muted-foreground text-sm leading-relaxed">
-                      {category.description}
-                    </p>
-                  </div>
+                {/* Content */}
+                <div className="text-center">
+                  <h3 className="text-xl font-heading font-medium text-headings mb-2 group-hover:text-primary-accent transition-colors">
+                    {category.name}
+                  </h3>
+                  <p className="text-muted-foreground text-sm">
+                    {category.description}
+                  </p>
                 </div>
               </Link>
             );
