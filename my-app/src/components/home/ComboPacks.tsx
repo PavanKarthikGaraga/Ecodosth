@@ -37,7 +37,7 @@ const ComboPacks = () => {
     ];
 
     return (
-        <section className="py-16 bg-white">
+        <section className="py-16 bg-bg">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-4xl md:text-5xl text-center font-heading font-bold text-headings mb-6">
                     Value Combo Packs

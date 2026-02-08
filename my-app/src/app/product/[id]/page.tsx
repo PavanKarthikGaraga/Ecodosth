@@ -1,176 +1,107 @@
+"use client";
+
+import { useParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { Star, ShoppingCart, Heart, Truck, Shield, RotateCcw } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Star, ShoppingCart, Heart, Truck, Shield, RotateCcw, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
+import { products, Product, ProductVariant } from "@/data/products";
+import { cn } from "@/lib/utils";
 
-const ProductDetail = ({ params }: { params: { slug: string } }) => {
-  // Mock product data - in a real app, this would come from an API or database
-  const products = [
-    {
-      id: "wooden-spork-white",
-      name: "4\" Wooden Spork - White",
-      price: 25,
-      originalPrice: 30,
-      rating: 4.8,
-      reviews: 234,
-      images: [
-        "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=600&fit=crop&crop=center",
-        "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=600&fit=crop&crop=center",
-        "https://images.unsplash.com/photo-1578916171728-46686eac8d58?w=600&h=600&fit=crop&crop=center",
-        "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&h=600&fit=crop&crop=center",
-      ],
-      category: "cutlery",
-      badge: "Best Seller",
-      ecoFriendly: true,
-      inStock: true,
-      description: "Premium wooden spork perfect for camping, picnics, and eco-conscious dining. Crafted from sustainable bamboo with food-safe finish.",
-      features: [
-        "100% biodegradable and compostable",
-        "Food-safe, non-toxic finish",
-        "Lightweight and durable",
-        "Dishwasher safe",
-        "Perfect for outdoor activities",
-        "Made from sustainable bamboo"
-      ],
-      specifications: {
-        "Material": "Sustainable Bamboo",
-        "Length": "4 inches",
-        "Weight": "15g",
-        "Finish": "Natural Food-Safe Coating",
-        "Origin": "India"
-      },
-      ecoBenefits: [
-        "Reduces plastic waste by 1kg per spork used instead of plastic",
-        "Carbon neutral manufacturing process",
-        "Supports local artisans and communities",
-        "Fully biodegradable at end of life"
-      ]
-    },
-    {
-      id: "wooden-spork-green",
-      name: "4\" Wooden Spork - Green",
-      price: 25,
-      originalPrice: 30,
-      rating: 4.9,
-      reviews: 189,
-      images: [
-        "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=600&fit=crop&crop=center",
-        "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=600&fit=crop&crop=center",
-        "https://images.unsplash.com/photo-1578916171728-46686eac8d58?w=600&h=600&fit=crop&crop=center",
-        "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&h=600&fit=crop&crop=center",
-      ],
-      category: "cutlery",
-      badge: "Eco Choice",
-      ecoFriendly: true,
-      inStock: true,
-      description: "Sustainable green-tinted wooden spork for nature lovers. Made from eco-friendly materials with natural coloring.",
-      features: [
-        "100% biodegradable and compostable",
-        "Natural green coloring from plant extracts",
-        "Food-safe, non-toxic finish",
-        "Lightweight and durable",
-        "Dishwasher safe",
-        "Made from sustainable bamboo"
-      ],
-      specifications: {
-        "Material": "Sustainable Bamboo with Natural Coloring",
-        "Length": "4 inches",
-        "Weight": "15g",
-        "Finish": "Natural Food-Safe Coating",
-        "Origin": "India"
-      },
-      ecoBenefits: [
-        "Reduces plastic waste by 1kg per spork used instead of plastic",
-        "Uses natural, non-chemical coloring",
-        "Carbon neutral manufacturing process",
-        "Supports local artisans and communities"
-      ]
-    },
-    {
-      id: "square-plate",
-      name: "10\" Square Plate",
-      price: 45,
-      originalPrice: 55,
-      rating: 4.7,
-      reviews: 156,
-      images: [
-        "https://images.unsplash.com/photo-1578916171728-46686eac8d58?w=600&h=600&fit=crop&crop=center",
-        "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&h=600&fit=crop&crop=center",
-        "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=600&fit=crop&crop=center",
-        "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=600&fit=crop&crop=center",
-      ],
-      category: "plates",
-      badge: "Popular",
-      ecoFriendly: true,
-      inStock: true,
-      description: "Beautiful square wooden plate perfect for modern dining. Made from sustainable bamboo with elegant design.",
-      features: [
-        "100% biodegradable and compostable",
-        "Food-safe, non-toxic finish",
-        "Elegant square design",
-        "Dishwasher safe",
-        "Perfect for modern dining",
-        "Made from sustainable bamboo"
-      ],
-      specifications: {
-        "Material": "Sustainable Bamboo",
-        "Size": "10 inches square",
-        "Weight": "180g",
-        "Finish": "Natural Food-Safe Coating",
-        "Origin": "India"
-      },
-      ecoBenefits: [
-        "Reduces plastic waste significantly",
-        "Carbon neutral manufacturing process",
-        "Supports sustainable bamboo farming",
-        "Fully biodegradable at end of life"
-      ]
-    },
-    {
-      id: "round-plate",
-      name: "10\" Round Plate",
-      price: 42,
-      originalPrice: 50,
-      rating: 4.6,
-      reviews: 98,
-      images: [
-        "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&h=600&fit=crop&crop=center",
-        "https://images.unsplash.com/photo-1578916171728-46686eac8d58?w=600&h=600&fit=crop&crop=center",
-        "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=600&fit=crop&crop=center",
-        "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=600&fit=crop&crop=center",
-      ],
-      category: "plates",
-      badge: "New",
-      ecoFriendly: true,
-      inStock: true,
-      description: "Classic round wooden plate with natural wood grain. Perfect for traditional and modern dining experiences.",
-      features: [
-        "100% biodegradable and compostable",
-        "Food-safe, non-toxic finish",
-        "Classic round design",
-        "Dishwasher safe",
-        "Natural wood grain beauty",
-        "Made from sustainable bamboo"
-      ],
-      specifications: {
-        "Material": "Sustainable Bamboo",
-        "Size": "10 inches diameter",
-        "Weight": "170g",
-        "Finish": "Natural Food-Safe Coating",
-        "Origin": "India"
-      },
-      ecoBenefits: [
-        "Reduces plastic waste significantly",
-        "Carbon neutral manufacturing process",
-        "Supports sustainable bamboo farming",
-        "Fully biodegradable at end of life"
-      ]
+const ProductDetail = () => {
+  const params = useParams();
+  const id = params?.id as string;
+  const product = products.find(p => p.id === id);
+
+  // State for selections
+  const [selectedQuality, setSelectedQuality] = useState<string>("");
+  const [selectedSize, setSelectedSize] = useState<string>("");
+  const [selectedWeight, setSelectedWeight] = useState<string>("");
+  const [currentVariant, setCurrentVariant] = useState<ProductVariant | null>(null);
+
+  // Initialize defaults on product load
+  useEffect(() => {
+    if (product) {
+      // Default to the first available variant options
+      const defaultVariant = product.variants[0];
+      if (defaultVariant) {
+        setSelectedQuality(defaultVariant.attributes.quality || "Standard");
+        setSelectedSize(defaultVariant.attributes.size || "Standard");
+        setSelectedWeight(defaultVariant.attributes.weight || "Standard");
+      }
     }
-  ];
+  }, [product]);
 
-  const product = products.find(p => p.id === params.slug) || products[0];
+  // Update current variant when selections change
+  useEffect(() => {
+    if (product) {
+      const variant = product.variants.find(v =>
+        (v.attributes.quality || "Standard") === selectedQuality &&
+        (v.attributes.size || "Standard") === selectedSize &&
+        (v.attributes.weight || "Standard") === selectedWeight
+      );
+      setCurrentVariant(variant || null);
+    }
+  }, [product, selectedQuality, selectedSize, selectedWeight]);
+
+  if (!product) {
+    return (
+      <div className="min-h-screen bg-bg flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold mb-4">Product Not Found</h1>
+          <Button asChild>
+            <Link href="/#products">Back to Products</Link>
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  // Derive available options based on current selections
+  // 1. Available Qualities (always all available for the product)
+  const availableQualities = Array.from(new Set(product.variants.map(v => v.attributes.quality || "Standard")));
+
+  // 2. Available Sizes (based on selected quality)
+  const availableSizes = Array.from(new Set(
+    product.variants
+      .filter(v => (v.attributes.quality || "Standard") === selectedQuality)
+      .map(v => v.attributes.size || "Standard")
+  ));
+
+  // 3. Available Weights (based on selected quality AND size)
+  const availableWeights = Array.from(new Set(
+    product.variants
+      .filter(v =>
+        (v.attributes.quality || "Standard") === selectedQuality &&
+        (v.attributes.size || "Standard") === selectedSize
+      )
+      .map(v => v.attributes.weight || "Standard")
+  ));
+
+  const handleQualityChange = (quality: string) => {
+    setSelectedQuality(quality);
+    // Reset dependent selections to valid defaults
+    const validVariants = product.variants.filter(v => (v.attributes.quality || "Standard") === quality);
+    if (validVariants.length > 0) {
+      setSelectedSize(validVariants[0].attributes.size || "Standard");
+      setSelectedWeight(validVariants[0].attributes.weight || "Standard");
+    }
+  };
+
+  const handleSizeChange = (size: string) => {
+    setSelectedSize(size);
+    // Reset weight to a valid default for this size
+    const validVariants = product.variants.filter(v =>
+      (v.attributes.quality || "Standard") === selectedQuality &&
+      (v.attributes.size || "Standard") === size
+    );
+    if (validVariants.length > 0) {
+      setSelectedWeight(validVariants[0].attributes.weight || "Standard");
+    }
+  };
 
   return (
     <div className="min-h-screen bg-bg">
@@ -179,7 +110,7 @@ const ProductDetail = ({ params }: { params: { slug: string } }) => {
         <nav className="flex items-center space-x-2 text-sm text-muted-foreground">
           <Link href="/" className="hover:text-primary-accent">Home</Link>
           <span>/</span>
-          <Link href="/products" className="hover:text-primary-accent">Products</Link>
+          <Link href="/#products" className="hover:text-primary-accent">Products</Link>
           <span>/</span>
           <span className="text-headings">{product.name}</span>
         </nav>
@@ -195,6 +126,7 @@ const ProductDetail = ({ params }: { params: { slug: string } }) => {
                 alt={product.name}
                 fill
                 className="object-cover"
+                priority
                 sizes="(max-width: 1024px) 100vw, 50vw"
               />
             </div>
@@ -203,7 +135,7 @@ const ProductDetail = ({ params }: { params: { slug: string } }) => {
                 <div key={index} className="aspect-square relative overflow-hidden rounded-lg bg-card-accent cursor-pointer">
                   <Image
                     src={image}
-                    alt={`${product.name} ${index + 1}`}
+                    alt={`${product.name} ${index + 1} `}
                     fill
                     className="object-cover hover:opacity-80 transition-opacity"
                     sizes="(max-width: 1024px) 25vw, 12.5vw"
@@ -239,11 +171,10 @@ const ProductDetail = ({ params }: { params: { slug: string } }) => {
                   {[...Array(5)].map((_, i) => (
                     <Star
                       key={i}
-                      className={`h-5 w-5 ${
-                        i < Math.floor(product.rating)
-                          ? "text-yellow-400 fill-current"
-                          : "text-gray-300"
-                      }`}
+                      className={`h - 5 w - 5 ${i < Math.floor(product.rating)
+                        ? "text-yellow-400 fill-current"
+                        : "text-gray-300"
+                        } `}
                     />
                   ))}
                   <span className="ml-2 text-lg font-medium">{product.rating}</span>
@@ -256,15 +187,96 @@ const ProductDetail = ({ params }: { params: { slug: string } }) => {
               {/* Price */}
               <div className="flex items-center space-x-3 mb-6">
                 <span className="text-3xl font-heading font-bold text-headings">
-                  ₹{product.price}
+                  ₹{currentVariant ? currentVariant.price : "..."}
                 </span>
-                <span className="text-xl text-muted-foreground line-through">
-                  ₹{product.originalPrice}
-                </span>
-                <Badge variant="outline" className="text-green-600 border-green-600">
-                  Save ₹{product.originalPrice - product.price}
-                </Badge>
+                {currentVariant && currentVariant.originalPrice > currentVariant.price && (
+                  <>
+                    <span className="text-xl text-muted-foreground line-through">
+                      ₹{currentVariant.originalPrice}
+                    </span>
+                    <Badge variant="outline" className="text-green-600 border-green-600">
+                      Save ₹{currentVariant.originalPrice - currentVariant.price}
+                    </Badge>
+                  </>
+                )}
               </div>
+
+              {/* Variant Selectors */}
+
+              {/* Quality Selector */}
+              {availableQualities.length > 1 && (
+                <div className="mb-4">
+                  <span className="block text-sm font-medium text-headings mb-2">Quality</span>
+                  <div className="flex flex-wrap gap-3">
+                    {availableQualities.map(q => (
+                      <button
+                        key={q}
+                        onClick={() => handleQualityChange(q)}
+                        className={cn(
+                          "px-4 py-2 rounded-lg border transition-all text-sm font-medium",
+                          selectedQuality === q
+                            ? "bg-primary-accent text-white border-primary-accent"
+                            : "bg-white text-body-text border-border hover:border-primary-accent/50"
+                        )}
+                      >
+                        {q}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Size Selector */}
+              {availableSizes.length > 1 && (
+                <div className="mb-4">
+                  <span className="block text-sm font-medium text-headings mb-2">Size</span>
+                  <div className="flex flex-wrap gap-3">
+                    {availableSizes.map(s => (
+                      <button
+                        key={s}
+                        onClick={() => handleSizeChange(s)}
+                        className={cn(
+                          "px-4 py-2 rounded-lg border transition-all text-sm font-medium",
+                          selectedSize === s
+                            ? "bg-primary-accent text-white border-primary-accent"
+                            : "bg-white text-body-text border-border hover:border-primary-accent/50"
+                        )}
+                      >
+                        {s}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Weight/Variant Selector */}
+              {availableWeights.length > 1 && (
+                <div className="mb-6">
+                  <span className="block text-sm font-medium text-headings mb-2">Weight / Thickness</span>
+                  <div className="flex flex-wrap gap-3">
+                    {availableWeights.map(w => (
+                      <button
+                        key={w}
+                        onClick={() => setSelectedWeight(w)}
+                        className={cn(
+                          "px-4 py-2 rounded-lg border transition-all text-sm font-medium relative overflow-hidden",
+                          selectedWeight === w
+                            ? "bg-primary-accent text-white border-primary-accent"
+                            : "bg-white text-body-text border-border hover:border-primary-accent/50"
+                        )}
+                      >
+                        {w}
+                        {selectedWeight === w && (
+                          <div className="absolute top-0 right-0 p-0.5 bg-white/20 rounded-bl">
+                            <Check className="w-3 h-3 text-white" />
+                          </div>
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
 
               {/* Stock Status */}
               <div className="flex items-center space-x-2 mb-6">
@@ -296,9 +308,9 @@ const ProductDetail = ({ params }: { params: { slug: string } }) => {
               </div>
 
               <div className="flex gap-4">
-                <Button className="flex-1" size="lg">
+                <Button className="flex-1" size="lg" disabled={!currentVariant}>
                   <ShoppingCart className="h-5 w-5 mr-2" />
-                  Add to Cart
+                  {currentVariant ? "Add to Cart" : "Unavailable"}
                 </Button>
                 <Button variant="outline" size="lg">
                   <Heart className="h-5 w-5" />
@@ -364,6 +376,19 @@ const ProductDetail = ({ params }: { params: { slug: string } }) => {
                     <span className="text-muted-foreground">{value}</span>
                   </div>
                 ))}
+                {/* Dynamic Specs based on Variant */}
+                {currentVariant?.attributes.quality && (
+                  <div className="flex justify-between py-2 border-b border-border last:border-0">
+                    <span className="font-medium text-headings">Quality:</span>
+                    <span className="text-muted-foreground">{currentVariant.attributes.quality}</span>
+                  </div>
+                )}
+                {currentVariant?.attributes.weight && currentVariant.attributes.weight !== "Standard" && (
+                  <div className="flex justify-between py-2 border-b border-border last:border-0">
+                    <span className="font-medium text-headings">Weight:</span>
+                    <span className="text-muted-foreground">{currentVariant.attributes.weight}</span>
+                  </div>
+                )}
               </div>
             </CardContent>
           </Card>
@@ -410,8 +435,8 @@ const ProductDetail = ({ params }: { params: { slug: string } }) => {
                       </Badge>
                     )}
                     <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                      <Button size="sm" className="bg-white text-primary-accent hover:bg-white/90">
-                        Quick View
+                      <Button size="sm" className="bg-white text-primary-accent hover:bg-white/90" asChild>
+                        <Link href={`/product/${relatedProduct.id}`}>Quick View</Link>
                       </Button>
                     </div>
                   </div>
@@ -422,14 +447,13 @@ const ProductDetail = ({ params }: { params: { slug: string } }) => {
                     </h3>
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-2">
-                        <span className="text-lg font-bold text-headings">₹{relatedProduct.price}</span>
-                        <span className="text-sm text-muted-foreground line-through">
-                          ₹{relatedProduct.originalPrice}
+                        <span className="text-lg font-bold text-headings">
+                          ₹{Math.min(...relatedProduct.variants.map(v => v.price))}
                         </span>
                       </div>
                     </div>
                     <Button asChild className="w-full mt-3" size="sm">
-                      <Link href={`/products/${relatedProduct.id}`}>
+                      <Link href={`/product/${relatedProduct.id}`}>
                         View Details
                       </Link>
                     </Button>

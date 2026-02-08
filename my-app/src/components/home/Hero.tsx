@@ -13,7 +13,7 @@ const slides = [
     title: "Eco-Friendly Dining",
     subtitle: "Sustainable tableware for a better tomorrow",
     cta: "Shop Now",
-    link: "/products",
+    link: "/#products",
   },
   {
     id: 2,
@@ -29,7 +29,7 @@ const slides = [
     title: "Premium Quality",
     subtitle: "Elegant designs for every occasion",
     cta: "View Collection",
-    link: "/products",
+    link: "/#products",
   },
 ];
 

@@ -9,7 +9,7 @@ const ProductCategories = () => {
       name: "Wooden Cutlery",
       description: "Premium wooden spoons, forks, and knives",
       icon: Utensils,
-      href: "/products?category=cutlery",
+      href: "/#products",
       image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop&crop=center",
       color: "bg-amber-50",
     },
@@ -40,7 +40,7 @@ const ProductCategories = () => {
   ];
 
   return (
-    <section className="py-10 bg-bg">
+    <section className="hidden md:block py-10 bg-bg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-16">
@@ -93,7 +93,7 @@ const ProductCategories = () => {
             size="lg"
             className="bg-primary-accent hover:bg-primary-accent/90 text-primary-foreground font-medium px-8 py-6 rounded-full text-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
           >
-            <Link href="/products" className="inline-flex items-center space-x-2">
+            <Link href="/#products" className="inline-flex items-center space-x-2">
               <span>View All Products</span>
               <ArrowRight className="h-5 w-5 ml-2" />
             </Link>

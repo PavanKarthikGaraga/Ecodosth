@@ -59,7 +59,7 @@ const Contact = () => {
             </p>
           </div>
 
-        
+
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             {/* Contact Form */}
@@ -189,7 +189,7 @@ const Contact = () => {
                   </h3>
                   <div className="space-y-3">
                     <Link
-                      href="/products"
+                      href="/#products"
                       className="block text-primary-accent hover:text-primary-accent/80 transition-colors"
                     >
                       Browse Products →
@@ -221,33 +221,33 @@ const Contact = () => {
       </section>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
-            {contactMethods.map((method) => {
-              const Icon = method.icon;
-              return (
-                <Card key={method.title} className="text-center p-6 hover:shadow-lg transition-shadow">
-                  <CardContent className="p-0">
-                    <div className="inline-flex items-center justify-center w-16 h-16 bg-primary-accent/10 rounded-full mb-4">
-                      <Icon className="h-8 w-8 text-primary-accent" />
-                    </div>
-                    <h3 className="text-xl font-heading font-semibold text-headings mb-2">
-                      {method.title}
-                    </h3>
-                    <p className="text-muted-foreground text-sm leading-relaxed mb-4">
-                      {method.description}
-                    </p>
-                    <div className="text-primary-accent font-medium mb-4">
-                      {method.contact}
-                    </div>
-                    <Button variant="outline" size="sm" asChild>
-                      <Link href={method.action}>
-                        Contact
-                      </Link>
-                    </Button>
-                  </CardContent>
-                </Card>
-              );
-            })}
-          </div>
+        {contactMethods.map((method) => {
+          const Icon = method.icon;
+          return (
+            <Card key={method.title} className="text-center p-6 hover:shadow-lg transition-shadow">
+              <CardContent className="p-0">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-primary-accent/10 rounded-full mb-4">
+                  <Icon className="h-8 w-8 text-primary-accent" />
+                </div>
+                <h3 className="text-xl font-heading font-semibold text-headings mb-2">
+                  {method.title}
+                </h3>
+                <p className="text-muted-foreground text-sm leading-relaxed mb-4">
+                  {method.description}
+                </p>
+                <div className="text-primary-accent font-medium mb-4">
+                  {method.contact}
+                </div>
+                <Button variant="outline" size="sm" asChild>
+                  <Link href={method.action}>
+                    Contact
+                  </Link>
+                </Button>
+              </CardContent>
+            </Card>
+          );
+        })}
+      </div>
 
       {/* Map Section */}
       <section className="py-16 bg-alt-bg">

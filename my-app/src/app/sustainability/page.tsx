@@ -301,7 +301,7 @@ const Sustainability = () => {
               Join thousands of eco-conscious customers making a positive impact.
             </p>
             <Button asChild size="lg" variant="secondary">
-              <Link href="/products">
+              <Link href="/#products">
                 Shop Sustainable Products
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>

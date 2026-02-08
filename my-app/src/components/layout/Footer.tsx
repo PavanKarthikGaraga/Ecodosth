@@ -8,9 +8,9 @@ const Footer = () => {
     {
       title: "Products",
       links: [
-        { name: "Wooden Cutlery", href: "/products?category=cutlery" },
-        { name: "Plates & Bowls", href: "/products?category=plates" },
-        { name: "Eco Packaging", href: "/products?category=packaging" },
+        { name: "Wooden Cutlery", href: "/#products" },
+        { name: "Plates & Bowls", href: "/#products" },
+        { name: "Eco Packaging", href: "/#products" },
         { name: "Bulk Orders", href: "/contact?type=bulk" },
       ],
     },

@@ -20,7 +20,7 @@ const DualCTA = () => {
               Quality craftsmanship meets environmental responsibility.
             </p>
             <Button asChild size="lg" className="bg-white text-primary-accent hover:bg-white/90">
-              <Link href="/products">
+              <Link href="/#products">
                 Shop Now
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
