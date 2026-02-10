@@ -39,50 +39,66 @@ const Testimonials = () => {
           </p>
         </div>
 
-        {/* Testimonials Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {testimonials.map((testimonial,) => (
-            <div
-              key={testimonial.name}
-              className="bg-white rounded-2xl p-8 shadow-sm hover:shadow-lg transition-all duration-300"
-            >
-              {/* Quote Icon */}
-              <Quote className="h-8 w-8 text-primary-accent mb-6 opacity-60" />
-
-              {/* Rating */}
-              <div className="flex items-center mb-4">
-                {[...Array(testimonial.rating)].map((_, i) => (
-                  <Star key={i} className="h-5 w-5 text-yellow-400 fill-current" />
-                ))}
-              </div>
-
-              {/* Testimonial Text */}
-              <p className="text-muted-foreground leading-relaxed mb-6">
-                &quot;{testimonial.text}&quot;
-              </p>
-
-              {/* Author */}
-              <div className="flex items-center">
-                <div className="relative w-12 h-12 rounded-full overflow-hidden mr-4 shrink-0">
-                  <Image
-                    src={testimonial.avatar}
-                    alt={testimonial.name}
-                    fill
-                    className="object-cover"
-                    sizes="48px"
-                  />
-                </div>
-                <div>
-                  <div className="font-heading font-semibold text-headings">
-                    {testimonial.name}
+        {/* Testimonials Grid/Carousel */}
+        <div className="relative">
+          <div className="flex md:grid md:grid-cols-3 gap-6 md:gap-8 overflow-x-auto md:overflow-visible snap-x snap-mandatory pb-8 md:pb-0 scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0">
+            {testimonials.map((testimonial, index) => (
+              <div
+                key={testimonial.name}
+                className="min-w-[85vw] md:min-w-0 snap-center first:pl-4 last:pr-4 md:first:pl-0 md:last:pr-0 h-full"
+              >
+                <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm hover:shadow-xl transition-all duration-300 border border-transparent hover:border-primary-accent/10 group h-full flex flex-col">
+                  {/* Quote Icon */}
+                  <div className="mb-6 relative">
+                    <Quote className="h-10 w-10 text-primary-accent/20 group-hover:text-primary-accent/40 transition-colors" />
                   </div>
-                  <div className="text-sm text-muted-foreground">
-                    {testimonial.location}
+
+                  {/* Rating */}
+                  <div className="flex items-center mb-4">
+                    {[...Array(testimonial.rating)].map((_, i) => (
+                      <Star key={i} className="h-4 w-4 md:h-5 md:w-5 text-yellow-400 fill-current" />
+                    ))}
+                  </div>
+
+                  {/* Testimonial Text */}
+                  <p className="text-muted-foreground leading-relaxed mb-6 flex-grow italic">
+                    &quot;{testimonial.text}&quot;
+                  </p>
+
+                  {/* Author */}
+                  <div className="flex items-center mt-auto pt-6 border-t border-gray-100">
+                    <div className="relative w-10 h-10 md:w-12 md:h-12 rounded-full overflow-hidden mr-4 shrink-0 border border-gray-200">
+                      <Image
+                        src={testimonial.avatar}
+                        alt={testimonial.name}
+                        fill
+                        className="object-cover"
+                        sizes="48px"
+                      />
+                    </div>
+                    <div>
+                      <div className="font-heading font-semibold text-headings group-hover:text-primary-accent transition-colors">
+                        {testimonial.name}
+                      </div>
+                      <div className="text-xs md:text-sm text-muted-foreground">
+                        {testimonial.location}
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+
+          {/* Mobile Scroll Indicator Hint */}
+          <div className="flex justify-center gap-2 mt-4 md:hidden">
+            {testimonials.map((_, i) => (
+              <div
+                key={i}
+                className="h-1.5 w-1.5 rounded-full bg-primary-accent/20"
+              />
+            ))}
+          </div>
         </div>
 
         {/* Trust Indicators */}

@@ -39,14 +39,14 @@ const ComboPacks = () => {
     return (
         <section className="py-16 bg-bg">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl md:text-5xl text-center font-heading font-bold text-headings mb-6">
+                <h2 className="text-4xl md:text-5xl text-center font-heading font-bold text-headings mb-6">
                     Value Combo Packs
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     {packs.map((pack) => (
                         <div
                             key={pack.name}
-                            className="relative overflow-hidden rounded-3xl h-[500px] shadow-lg group border border-gray-100"
+                            className="relative overflow-hidden rounded-3xl h-[400px] md:h-[500px] shadow-lg group border border-gray-100"
                         >
                             <Image
                                 src={pack.image}
@@ -57,14 +57,14 @@ const ComboPacks = () => {
                             />
                             {/* Subtle Overlay to ensure text readability only on the text side */}
                             <div
-                                className={`absolute inset-0 transition-opacity duration-300 ${pack.textPosition === 'left'
-                                    ? 'bg-gradient-to-r from-black/70 via-black/30 to-transparent'
-                                    : 'bg-gradient-to-l from-black/70 via-black/30 to-transparent'
+                                className={`absolute inset-0 transition-opacity duration-300 bg-black/40 md:bg-transparent ${pack.textPosition === 'left'
+                                    ? 'md:bg-gradient-to-r md:from-black/70 md:via-black/30 md:to-transparent'
+                                    : 'md:bg-gradient-to-l md:from-black/70 md:via-black/30 md:to-transparent'
                                     }`}
                             />
 
-                            <div className={`absolute inset-y-0 ${pack.textPosition === 'left' ? 'left-0' : 'right-0'} w-full md:w-3/4 p-8 flex flex-col justify-center text-white`}>
-                                <div className={`${pack.textPosition === 'right' ? 'text-right items-end' : 'text-left items-start'} flex flex-col`}>
+                            <div className={`absolute inset-0 p-6 md:p-8 flex flex-col justify-end md:justify-center text-white ${pack.textPosition === 'left' ? 'md:items-start' : 'md:items-end'} ${pack.textPosition === 'left' ? 'md:text-left' : 'md:text-right'}`}>
+                                <div className="max-w-full md:max-w-[75%]">
                                     <div className="text-2xl md:text-3xl text-white font-bold mb-2">{pack.name}</div>
                                     {pack.isPremium && (
                                         <span className="bg-primary-accent text-white text-xs font-bold px-3 py-1 rounded-full mb-4 inline-block">
@@ -72,15 +72,19 @@ const ComboPacks = () => {
                                         </span>
                                     )}
 
-                                    <ul className={`space-y-1.5 mb-6 text-white/90 ${pack.textPosition === 'right' ? 'text-right' : 'text-left'}`}>
+                                    <ul className={`space-y-1 md:space-y-1.5 mb-6 text-white/90 hidden md:block`}>
                                         {pack.items.map((item, idx) => (
-                                            <li key={idx} className="text-sm md:text-base">
-                                                {item}
+                                            <li key={idx} className="text-sm md:text-base flex items-center gap-2">
+                                                <Check className="w-4 h-4 text-primary-accent" /> {item}
                                             </li>
                                         ))}
                                     </ul>
+                                    {/* Mobile list summary */}
+                                    <p className="text-white/90 text-sm mb-4 md:hidden line-clamp-2">
+                                        Includes: {pack.items.join(", ")}
+                                    </p>
 
-                                    <Button className="bg-white text-black hover:bg-white/90 font-semibold px-8 py-2 rounded-full shadow-md transition-transform active:scale-95">
+                                    <Button className="bg-white text-black hover:bg-white/90 font-semibold px-6 py-2 md:px-8 shadow-md transition-transform active:scale-95 text-sm md:text-base w-full md:w-auto">
                                         Add to Cart
                                     </Button>
                                 </div>

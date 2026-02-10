@@ -1,8 +1,19 @@
+"use client";
+
 import Link from "next/link";
-import { Leaf, Mail, Phone, MapPin, Facebook, Instagram, Twitter } from "lucide-react";
+import { useState } from "react";
+import { Leaf, Mail, Phone, MapPin, Facebook, Instagram, Twitter, ChevronDown } from "lucide-react";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({});
+
+  const toggleSection = (title: string) => {
+    setExpandedSections((prev) => ({
+      ...prev,
+      [title]: !prev[title],
+    }));
+  };
 
   const footerSections = [
     {
@@ -75,24 +86,39 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Footer Links */}
+          {/* Footer Links - Accordion on Mobile, Grid on Desktop */}
           {footerSections.map((section) => (
-            <div key={section.title}>
-              <h3 className="font-heading font-semibold text-headings mb-4">
-                {section.title}
-              </h3>
-              <ul className="space-y-2">
-                {section.links.map((link) => (
-                  <li key={link.name}>
-                    <Link
-                      href={link.href}
-                      className="text-white hover:text-primary-accent transition-colors text-sm"
-                    >
-                      {link.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+            <div key={section.title} className="border-b border-white/10 md:border-none pb-4 md:pb-0">
+              <button
+                onClick={() => toggleSection(section.title)}
+                className="flex items-center justify-between w-full md:cursor-default group md:block"
+              >
+                <h3 className="font-heading font-semibold text-headings text-lg md:text-base mb-0 md:mb-4 text-left">
+                  {section.title}
+                </h3>
+                <ChevronDown
+                  className={`h-5 w-5 text-white/70 transition-transform duration-300 md:hidden ${expandedSections[section.title] ? "rotate-180" : ""
+                    }`}
+                />
+              </button>
+
+              <div
+                className={`overflow-hidden transition-all duration-300 ease-in-out md:h-auto md:opacity-100 ${expandedSections[section.title] ? "max-h-60 opacity-100 mt-4" : "max-h-0 opacity-0 md:max-h-none md:mt-0"
+                  }`}
+              >
+                <ul className="space-y-3 md:space-y-2 pl-1 md:pl-0">
+                  {section.links.map((link) => (
+                    <li key={link.name}>
+                      <Link
+                        href={link.href}
+                        className="text-white/80 hover:text-primary-accent transition-colors text-sm block py-1 md:py-0"
+                      >
+                        {link.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
           ))}
         </div>
