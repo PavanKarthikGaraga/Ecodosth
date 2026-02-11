@@ -194,7 +194,7 @@ export default function ProfilePage() {
                                 label="Addresses"
                             />
 
-                            <div className="pt-4 mt-4 border-t border-border">
+                            <div clabg-ssName="pt-4 mt-4 border-t border-border">
                                 <Button variant="ghost" className="w-full justify-start text-red-500 hover:text-red-600 hover:bg-red-50 px-4">
                                     <LogOut className="w-4 h-4 mr-3" />
                                     Log Out

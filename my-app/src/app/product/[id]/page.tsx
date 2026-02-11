@@ -104,7 +104,7 @@ const ProductDetail = () => {
   };
 
   return (
-    <div className="min-h-screen bg-bg">
+    <div className="min-h-screen bg-white">
       {/* Breadcrumb */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <nav className="flex items-center space-x-2 text-sm text-muted-foreground">
@@ -143,6 +143,31 @@ const ProductDetail = () => {
                 </div>
               ))}
             </div>
+
+            {/* Shipping & Returns - Moved here */}
+            <div className="grid grid-cols-1 gap-4 pt-6">
+              <div className="flex items-center space-x-3 p-4 bg-alt-bg rounded-xl">
+                <Truck className="h-8 w-8 text-primary-accent" />
+                <div>
+                  <div className="font-medium text-headings">Free Shipping</div>
+                  <div className="text-sm text-muted-foreground">Orders over ₹500</div>
+                </div>
+              </div>
+              <div className="flex items-center space-x-3 p-4 bg-alt-bg rounded-xl">
+                <Shield className="h-8 w-8 text-primary-accent" />
+                <div>
+                  <div className="font-medium text-headings">Secure Payment</div>
+                  <div className="text-sm text-muted-foreground">100% Protected</div>
+                </div>
+              </div>
+              <div className="flex items-center space-x-3 p-4 bg-alt-bg rounded-xl">
+                <RotateCcw className="h-8 w-8 text-primary-accent" />
+                <div>
+                  <div className="font-medium text-headings">Easy Returns</div>
+                  <div className="text-sm text-muted-foreground">30-day policy</div>
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Product Info */}
@@ -171,7 +196,7 @@ const ProductDetail = () => {
                   {[...Array(5)].map((_, i) => (
                     <Star
                       key={i}
-                      className={`h - 5 w - 5 ${i < Math.floor(product.rating)
+                      className={`h-5 w-5 ${i < Math.floor(product.rating)
                         ? "text-yellow-400 fill-current"
                         : "text-gray-300"
                         } `}
@@ -187,17 +212,19 @@ const ProductDetail = () => {
               {/* Price */}
               <div className="flex items-center space-x-3 mb-6">
                 <span className="text-3xl font-heading font-bold text-headings">
-                  ₹{currentVariant ? currentVariant.price : "..."}
+                  {currentVariant ? (
+                    (() => {
+                      const packMatch = currentVariant.attributes.pack?.match(/Pack of (\d+)/i);
+                      const packSize = packMatch ? parseInt(packMatch[1]) : 1;
+                      const uPrice = currentVariant.price / packSize;
+                      return `₹${uPrice.toFixed(2)} / piece`;
+                    })()
+                  ) : "..."}
                 </span>
-                {currentVariant && currentVariant.originalPrice > currentVariant.price && (
-                  <>
-                    <span className="text-xl text-muted-foreground line-through">
-                      ₹{currentVariant.originalPrice}
-                    </span>
-                    <Badge variant="outline" className="text-green-600 border-green-600">
-                      Save ₹{currentVariant.originalPrice - currentVariant.price}
-                    </Badge>
-                  </>
+                {currentVariant && (
+                  <span className="text-lg text-muted-foreground">
+                    (₹{currentVariant.price} for {currentVariant.attributes.pack || "pack"})
+                  </span>
                 )}
               </div>
 
@@ -312,9 +339,6 @@ const ProductDetail = () => {
                   <ShoppingCart className="h-5 w-5 mr-2" />
                   {currentVariant ? "Add to Cart" : "Unavailable"}
                 </Button>
-                <Button variant="outline" size="lg">
-                  <Heart className="h-5 w-5" />
-                </Button>
               </div>
             </div>
 
@@ -334,81 +358,10 @@ const ProductDetail = () => {
                 </ul>
               </CardContent>
             </Card>
-
-            {/* Shipping & Returns */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="flex items-center space-x-3 p-4 bg-alt-bg rounded-xl">
-                <Truck className="h-8 w-8 text-primary-accent" />
-                <div>
-                  <div className="font-medium text-headings">Free Shipping</div>
-                  <div className="text-sm text-muted-foreground">Orders over ₹500</div>
-                </div>
-              </div>
-              <div className="flex items-center space-x-3 p-4 bg-alt-bg rounded-xl">
-                <Shield className="h-8 w-8 text-primary-accent" />
-                <div>
-                  <div className="font-medium text-headings">Secure Payment</div>
-                  <div className="text-sm text-muted-foreground">100% Protected</div>
-                </div>
-              </div>
-              <div className="flex items-center space-x-3 p-4 bg-alt-bg rounded-xl">
-                <RotateCcw className="h-8 w-8 text-primary-accent" />
-                <div>
-                  <div className="font-medium text-headings">Easy Returns</div>
-                  <div className="text-sm text-muted-foreground">30-day policy</div>
-                </div>
-              </div>
-            </div>
           </div>
+
         </div>
 
-        {/* Specifications and Eco Benefits */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-16">
-          <Card>
-            <CardContent className="p-6">
-              <h3 className="text-xl font-heading font-semibold text-headings mb-6">
-                Specifications
-              </h3>
-              <div className="space-y-4">
-                {Object.entries(product.specifications).map(([key, value]) => (
-                  <div key={key} className="flex justify-between py-2 border-b border-border last:border-0">
-                    <span className="font-medium text-headings">{key}:</span>
-                    <span className="text-muted-foreground">{value}</span>
-                  </div>
-                ))}
-                {/* Dynamic Specs based on Variant */}
-                {currentVariant?.attributes.quality && (
-                  <div className="flex justify-between py-2 border-b border-border last:border-0">
-                    <span className="font-medium text-headings">Quality:</span>
-                    <span className="text-muted-foreground">{currentVariant.attributes.quality}</span>
-                  </div>
-                )}
-                {currentVariant?.attributes.weight && currentVariant.attributes.weight !== "Standard" && (
-                  <div className="flex justify-between py-2 border-b border-border last:border-0">
-                    <span className="font-medium text-headings">Weight:</span>
-                    <span className="text-muted-foreground">{currentVariant.attributes.weight}</span>
-                  </div>
-                )}
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardContent className="p-6">
-              <h3 className="text-xl font-heading font-semibold text-headings mb-6">
-                Environmental Impact
-              </h3>
-              <div className="space-y-4">
-                {product.ecoBenefits.map((benefit, index) => (
-                  <div key={index} className="flex items-start">
-                    <div className="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 shrink-0"></div>
-                    <span className="text-muted-foreground">{benefit}</span>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        </div>
 
         {/* Related Products */}
         <div className="mt-16">

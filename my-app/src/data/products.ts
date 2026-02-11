@@ -8,6 +8,8 @@ export interface ProductVariant {
         quality?: "Standard" | "Premium";
         size?: string; // e.g., "14 inch", "10 inch"
         weight?: string; // e.g., "80gsm", "100gsm", "120gsm"
+        pack?: string;
+        type?: string;
     };
 }
 
@@ -15,7 +17,7 @@ export interface Product {
     id: string;
     name: string;
     description: string;
-    category: "plates" | "bowls" | "cutlery" | "trays";
+    category: "plates" | "bowls" | "cutlery" | "trays" | "combo-packs";
     badge?: string;
     ecoFriendly: boolean;
     images: string[];
@@ -28,25 +30,74 @@ export interface Product {
 }
 
 export const products: Product[] = [
-    // 1. 14" Buffet Plate
+    // 1. Tiffin Plates
     {
-        id: "buffet-plate-14",
-        name: "14\" Buffet Plate",
-        description: "Large, sturdy buffet plate perfect for heavy meals and events. Available in multiple weights for different durability needs.",
+        id: "tiffin-plates",
+        name: "Tiffin Plates",
+        description: "Eco-friendly tiffin plates available in multiple sizes. Perfect for breakfast and light meals.",
+        category: "plates",
+        ecoFriendly: true,
+        rating: 4.8,
+        reviews: 124,
+        images: [
+            "https://images.unsplash.com/photo-1578916171728-46686eac8d58?w=600&h=600&fit=crop&crop=center",
+        ],
+        features: [
+            "Biodegradable",
+            "Microwave safe",
+            "Sturdy"
+        ],
+        specifications: {
+            "Material": "Areca Palm Leaf",
+            "Shape": "Round",
+            "Origin": "India"
+        },
+        ecoBenefits: [
+            "Compostable",
+            "Chemical free"
+        ],
+        variants: [
+            {
+                id: "tiffin-8-pack-20",
+                price: 100, // 5 * 20
+                originalPrice: 120,
+                inStock: true,
+                attributes: { size: "8 inch", pack: "Pack of 20" }
+            },
+            {
+                id: "tiffin-9-pack-20",
+                price: 120, // 6 * 20
+                originalPrice: 140,
+                inStock: true,
+                attributes: { size: "9 inch", pack: "Pack of 20" }
+            },
+            {
+                id: "tiffin-10-pack-20",
+                price: 140, // 7 * 20
+                originalPrice: 160,
+                inStock: true,
+                attributes: { size: "10 inch", pack: "Pack of 20" }
+            }
+        ]
+    },
+
+    // 2. Buffet Plates
+    {
+        id: "buffet-plates",
+        name: "Buffet Plates",
+        description: "Large, durable buffet plates suitable for heavy meals and events.",
         category: "plates",
         badge: "Best Seller",
         ecoFriendly: true,
-        rating: 4.8,
-        reviews: 156,
+        rating: 4.9,
+        reviews: 210,
         images: [
-            "https://images.unsplash.com/photo-1578916171728-46686eac8d58?w=600&h=600&fit=crop&crop=center",
             "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&h=600&fit=crop&crop=center",
         ],
         features: [
-            "100% biodegradable and compostable",
-            "Microwave and refrigerator safe",
-            "Sturdy and leak-proof",
-            "Chemical-free manufacturing"
+            "Heavy duty",
+            "Leak proof",
+            "Premium finish"
         ],
         specifications: {
             "Material": "Areca Palm Leaf",
@@ -54,190 +105,209 @@ export const products: Product[] = [
             "Origin": "India"
         },
         ecoBenefits: [
-            "Save 150g plastic per plate",
-            "Composts in 90 days",
-            "Supports rural employment"
+            "Zero waste",
+            "Natural material"
         ],
         variants: [
             {
-                id: "buffet-14-std-80",
-                price: 8,
-                originalPrice: 10,
+                id: "buffet-10-pack-20",
+                price: 180, // 9 * 20
+                originalPrice: 200,
                 inStock: true,
-                attributes: { quality: "Standard", size: "14 inch", weight: "80gsm" }
+                attributes: { size: "10 inch", pack: "Pack of 20" }
             },
             {
-                id: "buffet-14-std-100",
-                price: 9,
-                originalPrice: 11,
+                id: "buffet-11-pack-20",
+                price: 200, // 10 * 20
+                originalPrice: 220,
                 inStock: true,
-                attributes: { quality: "Standard", size: "14 inch", weight: "100gsm" }
+                attributes: { size: "11 inch", pack: "Pack of 20" }
             },
             {
-                id: "buffet-14-std-120",
-                price: 10,
-                originalPrice: 12,
+                id: "buffet-12-pack-20",
+                price: 240, // 12 * 20
+                originalPrice: 260,
                 inStock: true,
-                attributes: { quality: "Standard", size: "14 inch", weight: "120gsm" }
-            },
-            {
-                id: "buffet-14-prem-120",
-                price: 12,
-                originalPrice: 15,
-                inStock: true,
-                attributes: { quality: "Premium", size: "14 inch", weight: "120gsm" }
+                attributes: { size: "12 inch", pack: "Pack of 20" }
             }
         ]
     },
 
-    // 2. 15" Sitting Plate
+    // 3. Bowls
     {
-        id: "sitting-plate-15",
-        name: "15\" Sitting Plate",
-        description: "Extra-large sitting plate designed for traditional seated dining. Maximum surface area for a complete meal spread.",
-        category: "plates",
-        badge: "Unique",
-        ecoFriendly: true,
-        rating: 4.9,
-        reviews: 45,
-        images: [
-            "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=600&fit=crop&crop=center",
-        ],
-        features: [
-            "Extra large diameter",
-            "Excellent heat resistance",
-            "Natural wood-like texture"
-        ],
-        specifications: {
-            "Material": "Areca Palm Leaf",
-            "Shape": "Round",
-            "Origin": "India"
-        },
-        ecoBenefits: [
-            "Sustainable alternative to large metal/plastic thalis",
-            "Made from fallen leaves"
-        ],
-        variants: [
-            {
-                id: "sitting-15-std",
-                price: 15,
-                originalPrice: 18,
-                inStock: true,
-                attributes: { quality: "Standard", size: "15 inch", weight: "Standard" }
-            }
-        ]
-    },
-
-    // 3. 10" Breakfast Plate
-    {
-        id: "breakfast-plate-10",
-        name: "10\" Breakfast Plate",
-        description: "Versatile medium-sized plate, ideal for breakfasts, light lunches, or appetizers.",
-        category: "plates",
+        id: "areca-bowls",
+        name: "Bowls",
+        description: "Versatile bowls for soups, desserts, and side dishes.",
+        category: "bowls",
         ecoFriendly: true,
         rating: 4.7,
-        reviews: 89,
+        reviews: 95,
+        images: [
+            "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&h=600&fit=crop&crop=center",
+        ],
+        features: [
+            "Liquid resistant",
+            "Hot & cold safe"
+        ],
+        specifications: {
+            "Material": "Areca Palm Leaf",
+            "Shape": "Round",
+            "Origin": "India"
+        },
+        ecoBenefits: [
+            "Plastic alternative",
+            "Sustainable"
+        ],
+        variants: [
+            {
+                id: "bowl-4.5-pack-50",
+                price: 100, // 2 * 50
+                originalPrice: 110,
+                inStock: true,
+                attributes: { size: "4.5 inch", pack: "Pack of 50" }
+            },
+            {
+                id: "bowl-4.5-pack-100",
+                price: 200, // 2 * 100
+                originalPrice: 220,
+                inStock: true,
+                attributes: { size: "4.5 inch", pack: "Pack of 100" }
+            },
+            {
+                id: "bowl-6-pack-50",
+                price: 175, // 3.5 * 50
+                originalPrice: 190,
+                inStock: true,
+                attributes: { size: "6 inch", pack: "Pack of 50" }
+            },
+            {
+                id: "bowl-6-pack-100",
+                price: 350, // 3.5 * 100
+                originalPrice: 380,
+                inStock: true,
+                attributes: { size: "6 inch", pack: "Pack of 100" }
+            }
+        ]
+    },
+
+    // 4. Wooden Spoons
+    {
+        id: "wooden-spoons",
+        name: "Wooden Spoons",
+        description: "Smooth, splinter-free wooden spoons.",
+        category: "cutlery",
+        ecoFriendly: true,
+        rating: 4.6,
+        reviews: 150,
         images: [
             "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=600&fit=crop&crop=center",
         ],
         features: [
-            "Lightweight yet durable",
-            "Perfect for dry and semi-gravy items"
+            "Smooth finish",
+            "Biodegradable"
         ],
         specifications: {
-            "Material": "Areca Palm Leaf",
-            "Shape": "Round",
+            "Material": "Birch Wood",
             "Origin": "India"
         },
         ecoBenefits: [
-            "Home compostable",
-            "Zero chemical bleach used"
+            "Compostable"
         ],
         variants: [
             {
-                id: "breakfast-10-std-80",
-                price: 5,
-                originalPrice: 6,
+                id: "spoon-pack-20",
+                price: 40, // 2 * 20
+                originalPrice: 50,
                 inStock: true,
-                attributes: { quality: "Standard", size: "10 inch", weight: "80gsm" }
-            },
-            {
-                id: "breakfast-10-std-100",
-                price: 6,
-                originalPrice: 7,
-                inStock: true,
-                attributes: { quality: "Standard", size: "10 inch", weight: "100gsm" }
-            },
-            {
-                id: "breakfast-10-std-120",
-                price: 7,
-                originalPrice: 8,
-                inStock: true,
-                attributes: { quality: "Standard", size: "10 inch", weight: "120gsm" }
-            },
-            {
-                id: "breakfast-10-prem-120",
-                price: 8,
-                originalPrice: 10,
-                inStock: true,
-                attributes: { quality: "Premium", size: "10 inch", weight: "120gsm" }
+                attributes: { type: "Spoon", pack: "Pack of 20" }
             }
         ]
     },
 
-    // 4. Meal Trays (Slotted Plate)
+    // 5. Wooden Forks
     {
-        id: "meal-tray-slotted",
-        name: "Meal Tray (Slotted)",
-        description: "Convenient detailed meal tray with compartments for organizing different food items. Ideal for set meals.",
-        category: "trays",
+        id: "forks",
+        name: "Forks",
+        description: "Sturdy wooden forks for all types of food.",
+        category: "cutlery",
         ecoFriendly: true,
         rating: 4.6,
-        reviews: 62,
+        reviews: 140,
         images: [
-            "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&h=600&fit=crop&crop=center",
+            "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=600&fit=crop&crop=center",
         ],
         features: [
-            "Multiple compartments",
-            "Prevents food mixing",
-            "Rigid construction"
+            "Sturdy tines",
+            "Biodegradable"
         ],
         specifications: {
-            "Material": "Areca Palm Leaf",
-            "Compartments": "3-5",
+            "Material": "Birch Wood",
             "Origin": "India"
         },
         ecoBenefits: [
-            "Replaces styrofoam section plates",
+            "Compostable"
+        ],
+        variants: [
+            {
+                id: "fork-pack-20",
+                price: 60, // 3 * 20
+                originalPrice: 70,
+                inStock: true,
+                attributes: { type: "Fork", pack: "Pack of 20" }
+            }
+        ]
+    },
+
+    // 6. Stitched Leaf Vistaraku
+    {
+        id: "vistaraku",
+        name: "Stitched Leaf Vistaraku",
+        description: "Traditional stitched leaf plates.",
+        category: "plates",
+        badge: "Traditional",
+        ecoFriendly: true,
+        rating: 4.8,
+        reviews: 80,
+        images: [
+            "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=600&fit=crop&crop=center", // Placeholder
+        ],
+        features: [
+            "Traditional",
+            "Natural"
+        ],
+        specifications: {
+            "Material": "Leaf",
+            "Origin": "India"
+        },
+        ecoBenefits: [
             "Biodegradable"
         ],
         variants: [
             {
-                id: "meal-tray-std",
-                price: 12,
-                originalPrice: 14,
+                id: "vistaraku-pack-20",
+                price: 200, // 10 * 20
+                originalPrice: 220,
                 inStock: true,
-                attributes: { quality: "Standard", size: "Standard" }
+                attributes: { pack: "Pack of 20" }
             }
         ]
     },
 
-    // 5. Idly Cooking Trays
+    // 7. Idly Cooking Tray
     {
         id: "idly-tray",
         name: "Idly Cooking Tray",
-        description: "Natural steaming tray for Idlys. Safe for high-temperature steaming without leaching chemicals.",
-        category: "trays",
+        description: "Natural steaming tray for Idlys.",
+        category: "plates", // User requested to put in plates
         ecoFriendly: true,
         rating: 4.5,
-        reviews: 28,
+        reviews: 40,
         images: [
-            "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=600&fit=crop&crop=center",
+            "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=600&fit=crop&crop=center", // Placeholder
         ],
         features: [
             "Steam safe",
-            "Natural non-stick properties",
-            "Healthy cooking alternative"
+            "Healthy cooking"
         ],
         specifications: {
             "Material": "Areca Palm Leaf",
@@ -245,97 +315,15 @@ export const products: Product[] = [
             "Origin": "India"
         },
         ecoBenefits: [
-            "No plastic leaching",
-            "Compostable after use"
+            "No leaching"
         ],
         variants: [
             {
-                id: "idly-tray-std",
-                price: 15,
-                originalPrice: 18,
+                id: "idly-tray-pack-100",
+                price: 100, // 1 * 100
+                originalPrice: 120,
                 inStock: true,
-                attributes: { quality: "Standard", size: "Standard" }
-            }
-        ]
-    },
-
-    // 6. Bowls
-    {
-        id: "bowl-6",
-        name: "6\" Areca Bowl",
-        description: "Deep, leak-proof bowl perfect for soups, dals, desserts, and gravies.",
-        category: "bowls",
-        ecoFriendly: true,
-        rating: 4.8,
-        reviews: 110,
-        images: [
-            "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&h=600&fit=crop&crop=center",
-        ],
-        features: [
-            "Leak-proof design",
-            "Holds hot liquids well",
-            "Elegant natural look"
-        ],
-        specifications: {
-            "Material": "Areca Palm Leaf",
-            "Size": "6 inches",
-            "Origin": "India"
-        },
-        ecoBenefits: [
-            "Plastic-free liquid containment",
-            "100% natural"
-        ],
-        variants: [
-            {
-                id: "bowl-6-std",
-                price: 4,
-                originalPrice: 5,
-                inStock: true,
-                attributes: { quality: "Standard", size: "6 inch" }
-            }
-        ]
-    },
-
-    // 7. Cutlery
-    {
-        id: "wooden-spork",
-        name: "Wooden Spork",
-        description: "Eco-friendly alternative to plastic cutlery. Smooth finish, splinter-free, and sturdy.",
-        category: "cutlery",
-        ecoFriendly: true,
-        rating: 4.7,
-        reviews: 300,
-        images: [
-            "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=600&fit=crop&crop=center",
-        ],
-        features: [
-            "Smooth finish",
-            "No splintering",
-            "Taste-neutral"
-        ],
-        specifications: {
-            "Material": "Birch Wood",
-            "Length": "140mm / 160mm",
-            "Origin": "India"
-        },
-        ecoBenefits: [
-            "Replaces single-use plastic",
-            "FSC certified wood source"
-        ],
-        variants: [
-            {
-                id: "spork-140",
-                price: 2,
-                originalPrice: 3,
-                inStock: true,
-                attributes: { quality: "Standard", size: "140mm" }
-            },
-            {
-                id: "spork-160",
-                price: 3,
-                originalPrice: 4,
-                inStock: true,
-                attributes: { quality: "Standard", size: "160mm" }
+                attributes: { pack: "Pack of 100" }
             }
         ]
     }

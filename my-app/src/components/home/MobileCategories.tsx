@@ -7,26 +7,24 @@ import { Utensils, Circle, Square, Package } from "lucide-react";
 const MobileCategories = () => {
     const categories = [
         {
-            name: "Cutlery",
-            href: "/#products",
-            image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=200&h=200&fit=crop&crop=center",
-        },
-        {
             name: "Plates",
             href: "/#products",
             image: "https://images.unsplash.com/photo-1578916171728-46686eac8d58?w=200&h=200&fit=crop&crop=center",
         },
         {
-            name: "Sets",
-            href: "/#products",
-            image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=200&h=200&fit=crop&crop=center",
-        },
-  
-        // Adding more merely for scrolling demonstration if needed, or stick to core 4
-        {
             name: "Bowls",
             href: "/#products",
             image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=200&h=200&fit=crop&crop=center",
+        },
+        {
+            name: "Cutlery",
+            href: "/#products",
+            image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=200&h=200&fit=crop&crop=center",
+        },
+        {
+            name: "Combo Packs",
+            href: "/#products",
+            image: "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?w=200&h=200&fit=crop&crop=center",
         },
     ];
 

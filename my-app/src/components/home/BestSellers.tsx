@@ -21,8 +21,19 @@ const BestSellers = () => {
         {/* Products Grid */}
         <div className="flex flex-wrap justify-center gap-4 md:gap-8">
           {products.map((product) => {
-            const startPrice = Math.min(...product.variants.map(v => v.price));
-            const originalPrice = Math.min(...product.variants.map(v => v.originalPrice));
+            // Calculate min unit price
+            const minUnitPrice = Math.min(...product.variants.map(v => {
+              const packMatch = v.attributes.pack?.match(/Pack of (\d+)/i);
+              const packSize = packMatch ? parseInt(packMatch[1]) : 1;
+              return v.price / packSize;
+            }));
+
+            // Calculate min original unit price (if valid)
+            const minOriginalUnitPrice = Math.min(...product.variants.map(v => {
+              const packMatch = v.attributes.pack?.match(/Pack of (\d+)/i);
+              const packSize = packMatch ? parseInt(packMatch[1]) : 1;
+              return v.originalPrice / packSize;
+            }));
 
             return (
               <Link
@@ -56,11 +67,11 @@ const BestSellers = () => {
                   {/* Price */}
                   <div className="flex items-center space-x-2 md:space-x-3 flex-wrap">
                     <span className="text-sm md:text-lg font-bold text-primary-accent">
-                      From ₹{startPrice}
+                      From ₹{minUnitPrice.toFixed(2)} / piece
                     </span>
-                    {originalPrice > startPrice && (
+                    {minOriginalUnitPrice > minUnitPrice && (
                       <span className="text-xs md:text-sm text-muted-foreground line-through">
-                        ₹{originalPrice}
+                        ₹{minOriginalUnitPrice.toFixed(2)}
                       </span>
                     )}
                   </div>
