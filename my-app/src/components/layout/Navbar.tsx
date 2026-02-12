@@ -26,7 +26,7 @@ const Navbar = () => {
           {/* Logo */}
           <Link
             href="/"
-            className="text-2xl font-heading font-semibold text-primary-accent hover:text-primary-accent/80 transition-colors shrink-0"
+            className="text-2xl font-heading font-semibold text-primary-accent hover:text-primary-accent transition-colors shrink-0"
           >
             EcoDosth
           </Link>
@@ -44,7 +44,7 @@ const Navbar = () => {
           {/* Icons */}
           <div className="flex items-center space-x-2 shrink-0">
             {/* Profile Button */}
-            <Button variant="ghost" asChild>
+            <Button variant="ghost" asChild className="hover:bg-primary">
               <Link href="/profile">
                 <User className="h-5 w-5" />
                 <span>Profile</span>
@@ -52,7 +52,7 @@ const Navbar = () => {
             </Button>
 
             {/* Cart Button */}
-            <Button variant="ghost" className="relative" asChild>
+            <Button variant="ghost" className="relative hover:bg-primary" asChild>
               <Link href="/cart">
                 <ShoppingCart className="h-5 w-5" />
                 <span>Cart</span>

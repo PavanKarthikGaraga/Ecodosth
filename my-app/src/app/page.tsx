@@ -1,3 +1,4 @@
+"use client";
 import BestSellers from "@/components/home/BestSellers";
 import Testimonials from "@/components/home/Testimonials";
 import ProductCategories from "@/components/home/ProductCategories";
@@ -15,8 +16,8 @@ export default function Home() {
       <ProductCategories />
       <BestSellers />
       <ComboPacks />
-      <Testimonials />
       <GlobalShipping />
+      <Testimonials />
       <DualCTA />
     </div>
   );

@@ -5,6 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import ScrollAnimation from "@/components/ui/ScrollAnimation";
+import { AnimatePresence, motion } from "framer-motion";
 
 const slides = [
   {
@@ -50,51 +52,60 @@ const Hero = () => {
   }, [nextSlide]);
 
   return (
-    <div className="relative h-[80vh] w-full overflow-hidden bg-gray-900 group">
+    <div className="relative h-[80vh] w-full overflow-hidden group">
       {/* Slides */}
-      {slides.map((slide, index) => (
-        <div
-          key={slide.id}
-          className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${index === currentSlide ? "opacity-100" : "opacity-0"
-            }`}
+      <AnimatePresence>
+        <motion.div
+          key={currentSlide}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 1 }}
+          className="absolute inset-0"
         >
           <Image
-            src={slide.image}
-            alt={slide.title}
+            src={slides[currentSlide].image}
+            alt={slides[currentSlide].title}
             fill
             className="object-cover"
-            priority={index === 0}
+            priority
           />
           {/* Overlay */}
-          <div className="absolute inset-0 bg-black/40  " />
+          <div className="absolute inset-0 bg-black/40" />
 
           {/* Content */}
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="text-center px-4 max-w-4xl mx-auto">
-              <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 animate-in slide-in-from-bottom-10 fade-in duration-700">
-                {slide.title}
-              </h1>
-              <p className="text-xl md:text-2xl text-white/90 mb-8 animate-in slide-in-from-bottom-10 fade-in duration-1000 delay-200">
-                {slide.subtitle}
-              </p>
-              <Button
-                asChild
-                size="lg"
-                className="bg-primary-accent hover:bg-primary-accent/90 text-primary-foreground text-lg px-8 py-6 rounded-full animate-in zoom-in-50 fade-in duration-1000 delay-300"
-              >
-                <Link href={slide.link}>
-                  {slide.cta} <ArrowRight className="ml-2 h-5 w-5" />
-                </Link>
-              </Button>
+              <ScrollAnimation direction="up" delay={0.2}>
+                <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
+                  {slides[currentSlide].title}
+                </h1>
+              </ScrollAnimation>
+              <ScrollAnimation direction="up" delay={0.4}>
+                <p className="text-xl md:text-2xl text-white/90 mb-8">
+                  {slides[currentSlide].subtitle}
+                </p>
+              </ScrollAnimation>
+              <ScrollAnimation direction="up" delay={0.6}>
+                <Button
+                  asChild
+                  size="lg"
+                  className="bg-primary-accent hover:bg-primary-accent/90 text-primary-foreground text-lg px-8 py-6 rounded-full"
+                >
+                  <Link href={slides[currentSlide].link}>
+                    {slides[currentSlide].cta} <ArrowRight className="ml-2 h-5 w-5" />
+                  </Link>
+                </Button>
+              </ScrollAnimation>
             </div>
           </div>
-        </div>
-      ))}
+        </motion.div>
+      </AnimatePresence>
 
       {/* Navigation Controls */}
       <button
         onClick={prevSlide}
-        className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 backdrop-blur-sm text-white p-3 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 backdrop-blur-sm text-white p-3 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"
         aria-label="Previous slide"
       >
         <ChevronLeft className="h-8 w-8" />
@@ -102,14 +113,14 @@ const Hero = () => {
 
       <button
         onClick={nextSlide}
-        className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 backdrop-blur-sm text-white p-3 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 backdrop-blur-sm text-white p-3 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"
         aria-label="Next slide"
       >
         <ChevronRight className="h-8 w-8" />
       </button>
 
       {/* Dots */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex space-x-3">
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex space-x-3 z-10">
         {slides.map((_, index) => (
           <button
             key={index}

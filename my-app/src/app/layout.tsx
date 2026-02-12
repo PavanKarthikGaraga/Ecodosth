@@ -26,7 +26,6 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
-  themeColor: "#695C49",
 };
 
 export default function RootLayout({
@@ -40,7 +39,7 @@ export default function RootLayout({
         className={`${cormorant.variable} ${poppins.variable} antialiased`}
       >
         <Navbar />
-        <main className="min-h-screen">
+        <main>
           {children}
         </main>
         <Footer />

@@ -1,5 +1,4 @@
 "use client";
-
 import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -160,54 +159,56 @@ export default function ProfilePage() {
     };
 
     return (
-        <div className="container mx-auto py-10 px-4 md:px-6 min-h-screen">
-            <div className="flex flex-col md:flex-row gap-8">
+        <div className="bg-white py-10">
+            <div className="container mx-auto py-6 px-4 md:px-6 border-2 border-gray-200 shadow-3xl rounded-xl">
+                <div className="flex flex-col md:flex-row gap-8">
 
-                {/* Sidebar Navigation */}
-                <aside className="w-full md:w-64 shrink-0">
-                    <div className="sticky top-24">
-                        <h1 className="text-3xl font-heading font-bold text-headings mb-8">My Account</h1>
+                    {/* Sidebar Navigation */}
+                    <aside className="w-full md:w-64 shrink-0 border-r border-gray-200 min-h-[calc(100vh-8rem)]">
+                        <div className="sticky top-24 pr-6">
+                            <h1 className="text-2xl font-heading font-bold text-headings mb-6">My Account</h1>
 
-                        <nav className="space-y-2">
-                            <NavItem
-                                active={activeTab === "overview"}
-                                onClick={() => setActiveTab("overview")}
-                                icon={<LayoutDashboard className="w-4 h-4 mr-3" />}
-                                label="Overview"
-                            />
-                            <NavItem
-                                active={activeTab === "profile"}
-                                onClick={() => setActiveTab("profile")}
-                                icon={<User className="w-4 h-4 mr-3" />}
-                                label="My Profile"
-                            />
-                            <NavItem
-                                active={activeTab === "orders"}
-                                onClick={() => setActiveTab("orders")}
-                                icon={<Package className="w-4 h-4 mr-3" />}
-                                label="My Orders"
-                            />
-                            <NavItem
-                                active={activeTab === "addresses"}
-                                onClick={() => setActiveTab("addresses")}
-                                icon={<MapPin className="w-4 h-4 mr-3" />}
-                                label="Addresses"
-                            />
+                            <nav className="space-y-0">
+                                <NavItem
+                                    active={activeTab === "overview"}
+                                    onClick={() => setActiveTab("overview")}
+                                    icon={<LayoutDashboard className="w-4 h-4 mr-3" />}
+                                    label="Overview"
+                                />
+                                <NavItem
+                                    active={activeTab === "profile"}
+                                    onClick={() => setActiveTab("profile")}
+                                    icon={<User className="w-4 h-4 mr-3" />}
+                                    label="My Profile"
+                                />
+                                <NavItem
+                                    active={activeTab === "orders"}
+                                    onClick={() => setActiveTab("orders")}
+                                    icon={<Package className="w-4 h-4 mr-3" />}
+                                    label="My Orders"
+                                />
+                                <NavItem
+                                    active={activeTab === "addresses"}
+                                    onClick={() => setActiveTab("addresses")}
+                                    icon={<MapPin className="w-4 h-4 mr-3" />}
+                                    label="Addresses"
+                                />
 
-                            <div clabg-ssName="pt-4 mt-4 border-t border-border">
-                                <Button variant="ghost" className="w-full justify-start text-red-500 hover:text-red-600 hover:bg-red-50 px-4">
-                                    <LogOut className="w-4 h-4 mr-3" />
-                                    Log Out
-                                </Button>
-                            </div>
-                        </nav>
-                    </div>
-                </aside>
+                                <div className="pt-4 mt-4">
+                                    <Button variant="ghost" className="w-full justify-start text-red-500 hover:text-red-600 hover:bg-red-50 px-4 py-4 border-b border-gray-100 rounded-none h-auto">
+                                        <LogOut className="w-4 h-4 mr-3" />
+                                        Log Out
+                                    </Button>
+                                </div>
+                            </nav>
+                        </div>
+                    </aside>
 
-                {/* Main Content Area */}
-                <main className="flex-1 min-w-0 py-2">
-                    {renderContent()}
-                </main>
+                    {/* Main Content Area */}
+                    <main className="flex-1 min-w-0 py-2">
+                        {renderContent()}
+                    </main>
+                </div>
             </div>
         </div>
     );
@@ -218,9 +219,9 @@ function NavItem({ active, onClick, icon, label }: { active: boolean; onClick: (
     return (
         <button
             onClick={onClick}
-            className={`w-full flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors duration-200 ${active
-                    ? "bg-primary text-primary-foreground shadow-sm"
-                    : "text-muted-foreground hover:bg-muted hover:text-foreground"
+            className={`w-full flex items-center px-4 py-4 text-sm font-medium border-b border-gray-100 transition-colors duration-200 ${active
+                ? "text-primary border-primary"
+                : "text-muted-foreground hover:text-foreground hover:bg-gray-50"
                 }`}
         >
             {icon}

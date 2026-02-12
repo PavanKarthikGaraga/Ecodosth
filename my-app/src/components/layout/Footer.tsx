@@ -1,173 +1,107 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
-import { Leaf, Mail, Phone, MapPin, Facebook, Instagram, Twitter, ChevronDown } from "lucide-react";
+import { Leaf, Mail, Phone, MapPin, Facebook, Instagram, Twitter } from "lucide-react";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
-  const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({});
-
-  const toggleSection = (title: string) => {
-    setExpandedSections((prev) => ({
-      ...prev,
-      [title]: !prev[title],
-    }));
-  };
-
-  const footerSections = [
-    {
-      title: "Products",
-      links: [
-        { name: "Wooden Cutlery", href: "/#products" },
-        { name: "Plates & Bowls", href: "/#products" },
-        { name: "Eco Packaging", href: "/#products" },
-        { name: "Bulk Orders", href: "/contact?type=bulk" },
-      ],
-    },
-    {
-      title: "Company",
-      links: [
-        { name: "About Us", href: "/about" },
-        { name: "Sustainability", href: "/sustainability" },
-        { name: "Manufacturing", href: "/manufacturing" },
-        { name: "Careers", href: "/careers" },
-      ],
-    },
-    {
-      title: "Support",
-      links: [
-        { name: "Contact Us", href: "/contact" },
-        { name: "Shipping Info", href: "/shipping" },
-        { name: "Returns", href: "/returns" },
-        { name: "FAQ", href: "/faq" },
-      ],
-    },
-  ];
 
   return (
-    <footer className="bg-headings text-white border-t border-border">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
-          {/* Brand Section */}
-          <div className="lg:col-span-2">
-            <Link href="/" className="flex items-center space-x-2 mb-4">
-              <Leaf className="h-8 w-8 text-white" />
-              <span className="text-2xl font-heading font-semibold text-white">
+    <footer className="bg-headings text-white border-t border-border pt-8 pb-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-start gap-12 mb-12">
+
+          {/* Column 1: About Us */}
+          <div className="space-y-4">
+            <Link href="/" className="flex items-center space-x-2 text-3xl">
+              <Leaf className="h-10 w-10 text-white" />
+              <span className="text-3xl font-heading font-semibold text-white ">
                 EcoDosth
               </span>
             </Link>
-            <p className="text-white mb-6 max-w-md">
+            <p className="text-white/80 text-base leading-relaxed max-w-xs">
               Crafting sustainable tableware from nature&apos;s finest materials.
-              Premium wooden, bamboo, and areca products for conscious living.
+              Join us in our journey towards a plastic-free world, one meal at a time.
             </p>
-            <div className="flex space-x-4">
-              <a
-                href="#"
-                className="text-white hover:text-primary-accent transition-colors"
-                aria-label="Facebook"
-              >
-                <Facebook className="h-5 w-5" />
+            <div className="flex space-x-4 pt-2">
+              <a href="#" className="text-white/80 hover:text-primary-accent transition-colors" aria-label="Facebook">
+                <Facebook className="h-4 w-4" />
               </a>
-              <a
-                href="#"
-                className="text-white hover:text-primary-accent transition-colors"
-                aria-label="Instagram"
-              >
-                <Instagram className="h-5 w-5" />
+              <a href="#" className="text-white/80 hover:text-primary-accent transition-colors" aria-label="Instagram">
+                <Instagram className="h-4 w-4" />
               </a>
-              <a
-                href="#"
-                className="text-white hover:text-primary-accent transition-colors"
-                aria-label="Twitter"
-              >
-                <Twitter className="h-5 w-5" />
+              <a href="#" className="text-white/80 hover:text-primary-accent transition-colors" aria-label="Twitter">
+                <Twitter className="h-4 w-4" />
               </a>
             </div>
           </div>
 
-          {/* Footer Links - Accordion on Mobile, Grid on Desktop */}
-          {footerSections.map((section) => (
-            <div key={section.title} className="border-b border-white/10 md:border-none pb-4 md:pb-0">
-              <button
-                onClick={() => toggleSection(section.title)}
-                className="flex items-center justify-between w-full md:cursor-default group md:block"
-              >
-                <h3 className="font-heading font-semibold text-headings text-lg md:text-base mb-0 md:mb-4 text-left">
-                  {section.title}
-                </h3>
-                <ChevronDown
-                  className={`h-5 w-5 text-white/70 transition-transform duration-300 md:hidden ${expandedSections[section.title] ? "rotate-180" : ""
-                    }`}
-                />
-              </button>
+          {/* Column 2: Categories */}
+          <div>
+            <h3 className="font-heading font-semibold text-white text-3xl mb-6">Categories</h3>
+            <ul className="space-y-3">
+              <li>
+                <Link href="/#products" className="text-white/80 hover:text-primary-accent transition-colors text-base">
+                  Wooden Cutlery
+                </Link>
+              </li>
+              <li>
+                <Link href="/#products" className="text-white/80 hover:text-primary-accent transition-colors text-base">
+                  Plates & Bowls
+                </Link>
+              </li>
+              <li>
+                <Link href="/#products" className="text-white/80 hover:text-primary-accent transition-colors text-base">
+                  Eco Packaging
+                </Link>
+              </li>
+              <li>
+                <Link href="/contact?type=bulk" className="text-white/80 hover:text-primary-accent transition-colors text-base">
+                  Bulk Orders
+                </Link>
+              </li>
+              <li>
+                <Link href="/sustainability" className="text-white/80 hover:text-primary-accent transition-colors text-base">
+                  Sustainability
+                </Link>
+              </li>
+            </ul>
+          </div>
 
-              <div
-                className={`overflow-hidden transition-all duration-300 ease-in-out md:h-auto md:opacity-100 ${expandedSections[section.title] ? "max-h-60 opacity-100 mt-4" : "max-h-0 opacity-0 md:max-h-none md:mt-0"
-                  }`}
-              >
-                <ul className="space-y-3 md:space-y-2 pl-1 md:pl-0">
-                  {section.links.map((link) => (
-                    <li key={link.name}>
-                      <Link
-                        href={link.href}
-                        className="text-white/80 hover:text-primary-accent transition-colors text-sm block py-1 md:py-0"
-                      >
-                        {link.name}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Contact Info */}
-        <div className="mt-8 pt-8 border-t border-border">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="flex items-center space-x-3">
-              <Mail className="h-5 w-5 text-white" />
-              <div>
-                <p className="text-sm font-medium text-white">Email</p>
-                <p className="text-sm text-white">hello@ecodosth.com</p>
-              </div>
-            </div>
-            <div className="flex items-center space-x-3">
-              <Phone className="h-5 w-5 text-white" />
-              <div>
-                <p className="text-sm font-medium text-white">Phone</p>
-                <p className="text-sm text-white">+91 98765 43210</p>
-              </div>
-            </div>
-            <div className="flex items-center justify-center space-x-3">
-              <MapPin className="h-5 w-5 text-white" />
-              <div>
-                <p className="text-sm font-medium text-white">Address</p>
-                <p className="text-sm text-white">
+          {/* Column 3: Contact Us */}
+          <div>
+            <h3 className="font-heading font-semibold text-white text-3xl mb-6">Contact Us</h3>
+            <ul className="space-y-4">
+              <li className="flex items-start space-x-3">
+                <Phone className="h-5 w-5 text-white/80 shrink-0 mt-0.5" />
+                <span className="text-white/80 text-base">+91 98765 43210</span>
+              </li>
+              <li className="flex items-start space-x-3">
+                <Mail className="h-5 w-5 text-white/80 shrink-0 mt-0.5" />
+                <span className="text-white/80 text-base">hello@ecodosth.com</span>
+              </li>
+              <li className="flex items-start space-x-3">
+                <MapPin className="h-5 w-5 text-white/80 shrink-0 mt-0.5" />
+                <span className="text-white/80 text-">
+                  123 Eco Street, Green Valley,<br />
                   Mumbai, Maharashtra, India
-                </p>
-              </div>
-            </div>
+                </span>
+              </li>
+            </ul>
           </div>
+
         </div>
 
         {/* Bottom Section */}
-        <div className="mt-8 pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center">
-          <p className="text-sm text-muted-foreground">
+        <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center bg-[var(--color-heading)]">
+          <p className="text-xs text-white/60">
             © {currentYear} EcoDosth. All rights reserved.
           </p>
           <div className="flex space-x-6 mt-4 md:mt-0">
-            <Link
-              href="/privacy"
-              className="text-sm text-white hover:text-primary-accent transition-colors"
-            >
+            <Link href="/privacy" className="text-xs text-white/60 hover:text-white transition-colors">
               Privacy Policy
             </Link>
-            <Link
-              href="/terms"
-              className="text-sm text-white hover:text-primary-accent transition-colors"
-            >
+            <Link href="/terms" className="text-xs text-white/60 hover:text-white transition-colors">
               Terms of Service
             </Link>
           </div>

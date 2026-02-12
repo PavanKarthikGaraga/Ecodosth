@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Utensils, Circle, Square, Package } from "lucide-react";
+import ScrollAnimation from "@/components/ui/ScrollAnimation";
 
 const MobileCategories = () => {
     const categories = [
@@ -32,25 +33,26 @@ const MobileCategories = () => {
         <div className="md:hidden bg-white py-2 border-b border-border sticky  z-40 bg-opacity-95 backdrop-blur">
             {/* sticky top-16 to sit below navbar which is h-16. Adjust if navbar height changes */}
             <div className="flex overflow-x-auto px-4 gap-6 no-scrollbar pb-2">
-                {categories.map((category) => (
-                    <Link
-                        key={category.name}
-                        href={category.href}
-                        className="flex flex-col items-center shrink-0 w-20 space-y-2 group"
-                    >
-                        <div className="relative w-16 h-16 rounded-full overflow-hidden border-2 border-primary-accent/10 group-hover:border-primary-accent transition-colors">
-                            <Image
-                                src={category.image}
-                                alt={category.name}
-                                fill
-                                className="object-cover"
-                                sizes="64px"
-                            />
-                        </div>
-                        <span className="text-xs font-medium text-headings text-center leading-tight">
-                            {category.name}
-                        </span>
-                    </Link>
+                {categories.map((category, index) => (
+                    <ScrollAnimation key={category.name} direction="up" delay={index * 0.1} className="shrink-0">
+                        <Link
+                            href={category.href}
+                            className="flex flex-col items-center w-20 space-y-2 group"
+                        >
+                            <div className="relative w-16 h-16 rounded-full overflow-hidden border-2 border-primary-accent/10 group-hover:border-primary-accent transition-colors">
+                                <Image
+                                    src={category.image}
+                                    alt={category.name}
+                                    fill
+                                    className="object-cover"
+                                    sizes="64px"
+                                />
+                            </div>
+                            <span className="text-xs font-medium text-headings text-center leading-tight">
+                                {category.name}
+                            </span>
+                        </Link>
+                    </ScrollAnimation>
                 ))}
             </div>
         </div>

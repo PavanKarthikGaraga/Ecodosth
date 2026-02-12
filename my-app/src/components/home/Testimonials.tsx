@@ -1,5 +1,8 @@
+"use client";
+
 import { Star, Quote } from "lucide-react";
 import Image from "next/image";
+import ScrollAnimation from "@/components/ui/ScrollAnimation";
 
 const Testimonials = () => {
   const testimonials = [
@@ -27,27 +30,30 @@ const Testimonials = () => {
   ];
 
   return (
-    <section className="py-10 bg-[#FAF9F6]">
+    <section className="py-10 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-heading font-bold text-headings mb-4">
-            What Our Customers Say
-          </h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Join thousands of satisfied customers who have made the switch to sustainable dining
-          </p>
+          <ScrollAnimation direction="up">
+            <h2 className="text-4xl md:text-5xl font-heading font-bold text-headings mb-4">
+              What Our Customers Say
+            </h2>
+          </ScrollAnimation>
+          <ScrollAnimation direction="up" delay={0.1}>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              Join thousands of satisfied customers who have made the switch to sustainable dining
+            </p>
+          </ScrollAnimation>
         </div>
 
         {/* Testimonials Grid/Carousel */}
         <div className="relative">
           <div className="flex md:grid md:grid-cols-3 gap-6 md:gap-8 overflow-x-auto md:overflow-visible snap-x snap-mandatory pb-8 md:pb-0 scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0">
             {testimonials.map((testimonial, index) => (
-              <div
-                key={testimonial.name}
-                className="min-w-[85vw] md:min-w-0 snap-center first:pl-4 last:pr-4 md:first:pl-0 md:last:pr-0 h-full"
-              >
-                <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm hover:shadow-xl transition-all duration-300 border border-transparent hover:border-primary-accent/10 group h-full flex flex-col">
+              <ScrollAnimation key={testimonial.name} direction="up" delay={index * 0.1} className="min-w-[85vw] md:min-w-0 snap-center first:pl-4 last:pr-4 md:first:pl-0 md:last:pr-0 h-full">
+                <div
+                  className="bg-white rounded-2xl p-6 md:p-8 shadow-sm hover:shadow-xl transition-all duration-300 border border-transparent hover:border-primary-accent/10 group h-full flex flex-col"
+                >
                   {/* Quote Icon */}
                   <div className="mb-6 relative">
                     <Quote className="h-10 w-10 text-primary-accent/20 group-hover:text-primary-accent/40 transition-colors" />
@@ -86,7 +92,7 @@ const Testimonials = () => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </ScrollAnimation>
             ))}
           </div>
 
@@ -103,22 +109,24 @@ const Testimonials = () => {
 
         {/* Trust Indicators */}
         <div className="text-center mt-16">
-          <div className="flex flex-wrap justify-center items-center gap-8 opacity-60">
-            <div className="flex items-center space-x-2">
-              <div className="flex">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="h-4 w-4 text-yellow-400 fill-current" />
-                ))}
+          <ScrollAnimation direction="up" delay={0.4}>
+            <div className="flex flex-wrap justify-center items-center gap-8 opacity-60">
+              <div className="flex items-center space-x-2">
+                <div className="flex">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="h-4 w-4 text-yellow-400 fill-current" />
+                  ))}
+                </div>
+                <span className="text-sm font-medium">4.8/5 Rating</span>
               </div>
-              <span className="text-sm font-medium">4.8/5 Rating</span>
+              <div className="text-sm">
+                <span className="font-medium">50,000+</span> Happy Customers
+              </div>
+              <div className="text-sm">
+                <span className="font-medium">25+</span> Countries Served
+              </div>
             </div>
-            <div className="text-sm">
-              <span className="font-medium">50,000+</span> Happy Customers
-            </div>
-            <div className="text-sm">
-              <span className="font-medium">25+</span> Countries Served
-            </div>
-          </div>
+          </ScrollAnimation>
         </div>
       </div>
     </section>
