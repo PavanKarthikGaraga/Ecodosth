@@ -1,8 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Cormorant, Poppins } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
+import ClientLayout from "@/components/layout/ClientLayout";
 
 const cormorant = Cormorant({
   variable: "--font-heading",
@@ -38,11 +37,9 @@ export default function RootLayout({
       <body
         className={`${cormorant.variable} ${poppins.variable} antialiased`}
       >
-        <Navbar />
-        <main>
+        <ClientLayout>
           {children}
-        </main>
-        <Footer />
+        </ClientLayout>
       </body>
     </html>
   );

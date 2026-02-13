@@ -1,0 +1,24 @@
+'use client';
+
+import { Button } from '@/components/ui/button';
+import { LogOut } from 'lucide-react';
+
+export function DashboardHeader() {
+    const handleLogout = () => {
+        document.cookie = 'token=; Max-Age=0; path=/;';
+        window.location.href = '/admin';
+    };
+
+    return (
+        <div className="flex h-16 items-center justify-between border-b px-4 bg-background">
+            <div className="font-semibold text-xl">Admin Dashboard</div>
+            <div className="flex items-center gap-4">
+                <span className="text-sm text-muted-foreground">admin@ecodosth.com</span>
+                <Button variant="ghost" size="sm" onClick={handleLogout} className="text-destructive hover:text-destructive hover:bg-destructive/10">
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Logout
+                </Button>
+            </div>
+        </div>
+    );
+}

@@ -1,0 +1,378 @@
+'use client';
+
+import { useEffect, useState, use } from 'react';
+import { useRouter } from 'next/navigation';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from '@/components/ui/card';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select';
+import { Trash2, Plus, Upload, X } from 'lucide-react';
+import Image from 'next/image';
+
+interface Variant {
+    size: string;
+    price: string;
+    stock: string;
+}
+
+export default function EditProductPage({ params }: { params: Promise<{ id: string }> }) {
+    const router = useRouter();
+    // Unwrap params using React.use() or just await it if in an async component (but this is client)
+    // In Next.js client components receiving params prop (which is a promise), we must unwrap it.
+    // However, simpler to handle it via useEffect or use() hook.
+    // Using `use` hook to unwrap params
+    const { id } = use(params);
+
+    const [loading, setLoading] = useState(true);
+    const [saving, setSaving] = useState(false);
+    const [images, setImages] = useState<string[]>([]);
+    const [variants, setVariants] = useState<Variant[]>([
+        { size: '', price: '', stock: '' },
+    ]);
+    const [formData, setFormData] = useState({
+        title: '',
+        description: '',
+        category: '',
+        packSize: '',
+    });
+
+    useEffect(() => {
+        fetchProduct();
+    }, [id]);
+
+    const fetchProduct = async () => {
+        try {
+            const res = await fetch(`/api/admin/products/${id}`);
+            if (!res.ok) throw new Error('Failed to fetch product');
+            const data = await res.json();
+
+            setFormData({
+                title: data.title,
+                description: data.description,
+                category: data.category,
+                packSize: data.packSize,
+            });
+            setImages(data.images || []);
+            setVariants(data.variants.map((v: any) => ({
+                size: v.size,
+                price: v.price.toString(),
+                stock: v.stock.toString(),
+            })));
+        } catch (error) {
+            console.error(error);
+            alert('Error loading product');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target;
+        setFormData((prev) => ({ ...prev, [name]: value }));
+    };
+
+    const handleVariantChange = (index: number, field: keyof Variant, value: string) => {
+        const newVariants = [...variants];
+        newVariants[index][field] = value;
+        setVariants(newVariants);
+    };
+
+    const addVariant = () => {
+        setVariants([...variants, { size: '', price: '', stock: '' }]);
+    };
+
+    const removeVariant = (index: number) => {
+        setVariants(variants.filter((_, i) => i !== index));
+    };
+
+    const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const files = e.target.files;
+        if (!files || files.length === 0) return;
+
+        setSaving(true);
+        const formData = new FormData();
+        formData.append('file', files[0]);
+
+        try {
+            const res = await fetch('/api/admin/upload', {
+                method: 'POST',
+                body: formData,
+            });
+            const data = await res.json();
+            if (res.ok && data.url) {
+                setImages([...images, data.url]);
+            } else {
+                alert('Upload failed');
+            }
+        } catch (error) {
+            console.error('Upload error', error);
+            alert('Upload failed');
+        } finally {
+            setSaving(false);
+        }
+    };
+
+    const removeImage = (index: number) => {
+        setImages(images.filter((_, i) => i !== index));
+    };
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setSaving(true);
+
+        if (images.length === 0) {
+            alert('Please upload at least one image');
+            setSaving(false);
+            return;
+        }
+
+        try {
+            const payload = {
+                ...formData,
+                images,
+                variants: variants.map(v => ({
+                    size: v.size,
+                    price: parseFloat(v.price),
+                    stock: parseInt(v.stock)
+                }))
+            };
+
+            const res = await fetch(`/api/admin/products/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payload),
+            });
+
+            if (res.ok) {
+                router.push('/admin/dashboard/products');
+            } else {
+                const data = await res.json();
+                alert(data.error || 'Failed to update product');
+            }
+        } catch (error) {
+            console.error('Error updating product:', error);
+            alert('Error updating product');
+        } finally {
+            setSaving(false);
+        }
+    };
+
+    const handleDelete = async () => {
+        if (!confirm("Are you sure you want to delete this product? This action cannot be undone.")) return;
+
+        setSaving(true);
+        try {
+            const res = await fetch(`/api/admin/products/${id}`, {
+                method: 'DELETE'
+            });
+
+            if (res.ok) {
+                router.push('/admin/dashboard/products');
+            } else {
+                alert("Failed to delete product");
+            }
+        } catch (err) {
+            console.error(err);
+            alert("Error deleting product");
+        } finally {
+            setSaving(false);
+        }
+    }
+
+    if (loading) return <div className="p-10 text-center">Loading product...</div>;
+
+    return (
+        <div className="max-w-4xl mx-auto py-6">
+            <Card>
+                <CardHeader className="flex flex-row items-center justify-between">
+                    <div>
+                        <CardTitle>Edit Product</CardTitle>
+                        <CardDescription>Update product details</CardDescription>
+                    </div>
+                    <Button variant="destructive" size="sm" onClick={handleDelete}>
+                        <Trash2 className="h-4 w-4 mr-2" /> Delete Product
+                    </Button>
+                </CardHeader>
+                <form onSubmit={handleSubmit}>
+                    <CardContent className="space-y-6">
+                        {/* Basic Info */}
+                        <div className="grid gap-4 md:grid-cols-2">
+                            <div className="space-y-2">
+                                <Label htmlFor="title">Product Title</Label>
+                                <Input
+                                    id="title"
+                                    name="title"
+                                    placeholder="e.g. Round Plate"
+                                    value={formData.title}
+                                    onChange={handleInputChange}
+                                    required
+                                />
+                            </div>
+                            <div className="space-y-2">
+                                <Label htmlFor="category">Category</Label>
+                                <Select
+                                    value={formData.category}
+                                    onValueChange={(value) => setFormData(prev => ({ ...prev, category: value }))}
+                                    required
+                                >
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Select category" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="plates">Plates</SelectItem>
+                                        <SelectItem value="bowls">Bowls</SelectItem>
+                                        <SelectItem value="cutlery">Cutlery</SelectItem>
+                                        <SelectItem value="trays">Trays</SelectItem>
+                                        <SelectItem value="combo-packs">Combo Packs</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            </div>
+                        </div>
+
+                        <div className="space-y-2">
+                            <Label htmlFor="description">Description</Label>
+                            <Textarea
+                                id="description"
+                                name="description"
+                                placeholder="Product details..."
+                                rows={4}
+                                value={formData.description}
+                                onChange={handleInputChange}
+                                required
+                            />
+                        </div>
+
+                        <div className="space-y-2">
+                            <Label htmlFor="packSize">Pack Size</Label>
+                            <Input
+                                id="packSize"
+                                name="packSize"
+                                placeholder="e.g. Pack of 25"
+                                value={formData.packSize}
+                                onChange={handleInputChange}
+                                required
+                            />
+                        </div>
+
+                        {/* Images */}
+                        <div className="space-y-2">
+                            <Label>Images</Label>
+                            <div className="flex flex-wrap gap-4">
+                                {images.map((url, idx) => (
+                                    <div key={idx} className="relative h-24 w-24 border rounded-md overflow-hidden group">
+                                        <Image src={url} alt="Product" fill className="object-cover" />
+                                        <button
+                                            type="button"
+                                            onClick={() => removeImage(idx)}
+                                            className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                                        >
+                                            <X className="h-3 w-3" />
+                                        </button>
+                                    </div>
+                                ))}
+
+                                <Label
+                                    htmlFor="image-upload"
+                                    className="flex h-24 w-24 cursor-pointer flex-col items-center justify-center rounded-md border border-dashed hover:bg-muted"
+                                >
+                                    <Upload className="h-5 w-5 text-muted-foreground" />
+                                    <span className="text-xs text-muted-foreground mt-1">Upload</span>
+                                    <Input
+                                        id="image-upload"
+                                        type="file"
+                                        accept="image/*"
+                                        className="hidden"
+                                        onChange={handleImageUpload}
+                                        disabled={saving}
+                                    />
+                                </Label>
+                            </div>
+                        </div>
+
+                        {/* Variants */}
+                        <div className="space-y-4">
+                            <div className="flex items-center justify-between">
+                                <Label className="text-lg font-semibold">Variants (Size & Pricing)</Label>
+                                <Button type="button" variant="outline" size="sm" onClick={addVariant}>
+                                    <Plus className="h-4 w-4 mr-1" /> Add Variant
+                                </Button>
+                            </div>
+
+                            {variants.map((variant, index) => (
+                                <div key={index} className="grid gap-4 md:grid-cols-4 items-end border p-4 rounded-md relative bg-gray-50/50">
+                                    <div className="space-y-2">
+                                        <Label>Size</Label>
+                                        <Input
+                                            placeholder="e.g. 10 inch"
+                                            value={variant.size}
+                                            onChange={(e) => handleVariantChange(index, 'size', e.target.value)}
+                                            required
+                                        />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <Label>Price (₹)</Label>
+                                        <Input
+                                            type="number"
+                                            placeholder="0.00"
+                                            value={variant.price}
+                                            onChange={(e) => handleVariantChange(index, 'price', e.target.value)}
+                                            required
+                                        />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <Label>Stock</Label>
+                                        <Input
+                                            type="number"
+                                            placeholder="0"
+                                            value={variant.stock}
+                                            onChange={(e) => handleVariantChange(index, 'stock', e.target.value)}
+                                            required
+                                        />
+                                    </div>
+
+                                    {variants.length > 1 && (
+                                        <Button
+                                            type="button"
+                                            variant="ghost"
+                                            size="icon"
+                                            className="text-red-500 hover:text-red-600 hover:bg-red-50 mb-0.5"
+                                            onClick={() => removeVariant(index)}
+                                        >
+                                            <Trash2 className="h-4 w-4" />
+                                        </Button>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+
+                    </CardContent>
+                    <CardFooter className="flex justify-end gap-2">
+                        <Button variant="outline" type="button" onClick={() => router.back()}>
+                            Cancel
+                        </Button>
+                        <Button type="submit" disabled={loading || saving}>
+                            {saving ? 'Saving...' : 'Update Product'}
+                        </Button>
+                    </CardFooter>
+                </form>
+            </Card>
+        </div>
+    );
+}
